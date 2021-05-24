@@ -6,6 +6,7 @@ canvas.height = 600;
 //global variables//
 const cellSize = 100;
 const cellGap = 3;
+//we will be storing all of our stuff inside of arrays
 const gameGrid = [];
 
 // mouse
@@ -17,6 +18,7 @@ const mouse = {
 }
 
 let canvasPosition = canvas.getBoundingClientRect();
+canvas
 
 // game board //
 const controlsBar = {
