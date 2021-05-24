@@ -20,7 +20,6 @@ const mouse = {
 }
 
 let canvasPosition = canvas.getBoundingClientRect();
-canvas
 
 // game board //
 const controlsBar = {
