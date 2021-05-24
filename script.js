@@ -1,5 +1,6 @@
 const canvas = document.getElementById('canvas1');
 //this is our context
+//context is a "super object" that creates all our methods
 const ctx = canvas.getContext('2d'); /*creates 2d drawing methods*/
 canvas.width = 900;
 canvas.height = 600;
