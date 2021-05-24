@@ -29,6 +29,7 @@ const controlsBar = {
 }
 
 class Cell {
+//interlinked//
     constructor(x, y){
         this.x = x;
         this.y = y;
