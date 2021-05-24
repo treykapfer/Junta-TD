@@ -1,4 +1,5 @@
 const canvas = document.getElementById('canvas1');
+//this is our context
 const ctx = canvas.getContext('2d'); /*creates 2d drawing methods*/
 canvas.width = 900;
 canvas.height = 600;
