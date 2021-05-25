@@ -305,14 +305,14 @@ const handleGameStatus = () => {
     ctx.fillText('Morassium: ' + morassium + ` // Collect ${winningScore} to clear level`, 20, 35);
     ctx.fillText('Credits: ' + numberOfCredits, 20, 75);
     if (gameOver){
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'red';
         ctx.font = '60px Arial';
-        ctx.fillText('GAME OVER', 400, 60);
+        ctx.fillText('GAME OVER', 425, 60);
     }
     if (morassium >= winningScore && enemies.length === 0) {
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'green';
         ctx.font = '60px Arial';
-        ctx.fillText('LEVEL CLEAR', 400, 60);
+        ctx.fillText('LEVEL CLEAR', 425, 60);
     }
 }
 
