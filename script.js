@@ -348,6 +348,7 @@ createGrid();
 animate();
 console.log(gameGrid);
 
+//FIX RESIZE
 window.addEventListener('resize', ()=> {
     canvasPosition = canvas.getBoundingClientRect();
 })
