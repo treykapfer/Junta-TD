@@ -22,7 +22,7 @@ let killCount = 0;
 let enemyRate = 600;
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 1000;
+let numberOfCredits = 500;
 let frame = 0;
 
 //SWITCHES
