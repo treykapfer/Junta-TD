@@ -5,7 +5,7 @@ body {
     justify-content: center;
 }
 
-#canvas1 {
+#game_canvas {
     background-color: white;
     width: 900px;
     height: 600px;

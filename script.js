@@ -1,4 +1,4 @@
-const canvas = document.getElementById('canvas1');
+const canvas = document.getElementById('game_canvas');
 //this is our context
 //context is a "super object" that creates all our methods
 const ctx = canvas.getContext('2d'); /*creates 2d drawing methods*/
@@ -22,8 +22,13 @@ let killCount = 0;
 let enemyRate = 600;
 let enemyPositions = [];
 let morassium = 0;
+let public
 let numberOfCredits = 500;
 let frame = 0;
+
+//features to add
+let maxDeficit = -300;
+let councilScore = 500;
 
 //SWITCHES
 let gameOver = false;
@@ -36,7 +41,7 @@ const mouse = {
     height: 0.1
 }
 
-//this allows us to access mouse position later
+//access mouse position
 let canvasPosition = canvas.getBoundingClientRect();
 canvas.addEventListener('mousemove', (e)=> {
     mouse.x = e.x - canvasPosition.left;
@@ -48,7 +53,7 @@ canvas.addEventListener('mouseleave', (e)=> {
     mouse.y = undefined;
 });
 
-// game board //
+// GAME BOARD //
 const controlsBar = {
     width: canvas.width,
     height: cellSize,
@@ -85,7 +90,7 @@ const handleGameGrid = () => {
         gameGrid[i].draw();
     }
 }
-// projectiles //
+// PROJECTILES //
 class Projectile {
     constructor(x, y){
         this.x = x;
@@ -128,7 +133,7 @@ const handleProjectiles = () => {
     }
 }
 
-// defenders //
+// DEFENDERS //
 class Defender {
     constructor(x, y){
         this.x = x;
@@ -142,7 +147,7 @@ class Defender {
         this.shootingSpeed = 100;
     }
     draw(){
-        ctx.fillStyle = 'blue';
+        ctx.fillStyle = 'green';
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
         ctx.font = '20px Arial';
@@ -206,7 +211,7 @@ const handleDefenders = () => {
     }
 }
 
-// enemies //
+// ENEMIES //
 class Enemy {
     constructor(verticalPosition) {
         this.x = canvas.width;
@@ -251,7 +256,7 @@ const handleEnemies = () => {
             i--;
         }
     }
-    //CREATE ENEMY EVERY 100 FRAMES
+    //CREATE ENEMY BY RATE
     if (frame % enemyRate === 0 && morassium < winningScore){
         //math.random/floor for a random row on grid
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
@@ -296,18 +301,18 @@ const handleResources = () => {
 // utilities //
 const handleGameStatus = () => {
     ctx.fillStyle = 'gold';
-    ctx.font = '30px Arial';
+    ctx.font = '20px Arial';
     ctx.fillText('Morassium: ' + morassium + ` // Collect ${winningScore} to clear level`, 20, 35);
     ctx.fillText('Credits: ' + numberOfCredits, 20, 75);
     if (gameOver){
         ctx.fillStyle = 'black';
         ctx.font = '60px Arial';
-        ctx.fillText('GAME OVER', 150, 350);
+        ctx.fillText('GAME OVER', 400, 60);
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'black';
         ctx.font = '60px Arial';
-        ctx.fillText('LEVEL CLEARED', 150, 350);
+        ctx.fillText('LEVEL CLEAR', 400, 60);
     }
 }
 
@@ -346,7 +351,6 @@ const collision = (first, second) => {
 //CALL FUNCTIONS
 createGrid();
 animate();
-console.log(gameGrid);
 
 //FIX RESIZE
 window.addEventListener('resize', ()=> {
