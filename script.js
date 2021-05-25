@@ -16,7 +16,7 @@ const projectiles = [];
 const resources = [];
 
 let level = 1;
-let winningScore = 300;
+let winningScore = 200;
 let ledger = 0;
 let killCount = 0;
 let enemyRate = 600;
