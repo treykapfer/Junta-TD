@@ -19,10 +19,11 @@ let level = 1;
 let winningScore = 200;
 let ledger = 0;
 let killCount = 0;
-let enemyRate = 600;
+let enemyRate = 700;
+let baseEnemyRate = enemyRate;
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 500;
+let numberOfCredits = 400;
 let frame = 0;
 
 //features to add
@@ -133,6 +134,12 @@ const handleProjectiles = () => {
 }
 
 // DEFENDERS //
+const defender1 = new Image();
+defender1.src = 'assets/defender1.png';
+const defender1card = new Image();
+defender1card.src = 'assets/defender1card.png';
+
+
 class Defender {
     constructor(x, y){
         this.x = x;
@@ -141,49 +148,48 @@ class Defender {
         this.height = cellSize - cellGap * 2;
         //as long as this.shooting = true create projectiles
         this.shooting = false;
+        this.shootNow = false;
         this.health = 100;
-        this.timer = 0;
         this.shootingSpeed = 100;
+        //ANIMATION
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 22;
+        this.spriteWidth = 920;
+        this.spriteHeight = 1033;
     }
     draw(){
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.fillStyle = 'green';
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
         ctx.font = '20px Arial';
-        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+        ctx.fillText(Math.floor(this.health), this.x + 20, this.y + 93);
+        ctx.drawImage(defender1, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
     update(){
         //run update if its shooting
-        if (this.shooting) {
-            this.timer++;
-            if (this.timer % this.shootingSpeed === 0) {
-                projectiles.push(new Projectile(this.x + 50, this.y + 50));
+        if (frame % 3 === 0) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
+            if (this.frameX === 4) this.shootNow = true;
+        }
+
+        if (this.shooting && this.shootNow) {
+                projectiles.push(new Projectile(this.x + 50, this.y + 30));
+                this.shootNow = false;
             }
+        if (this.shooting) {
+            //shooting animation frames
+            this.minFrame = 0;
+            this.maxFrame = 16;
         } else {
-            this.timer = 0;
+            //idle is not working - fix later
+            this.minFrame = 0;
+            this.maxFrame = 0;
         }
     }
 }
-
-//HANDLE DEFENDER CLICK
-canvas.addEventListener('click', ()=> {
-    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-    //STOP IT IF ITS IN THE HEADER
-    if (gridPositionY < cellSize) return;
-    //THIS PREVENTS STACKING
-    for (let i = 0; i < defenders.length; i++){
-        //loop through the defender array and check their position
-        //then get out of the loop if theres a stack
-        if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {return}
-    }
-    let defenderCost = 100;
-    //BUY DEFENDER
-    if (numberOfCredits >= defenderCost) {
-        defenders.push(new Defender(gridPositionX, gridPositionY));
-        numberOfCredits -= defenderCost;
-    }
-});
 
 const handleDefenders = () => {
     for (let i = 0; i < defenders.length; i++) {
@@ -210,7 +216,77 @@ const handleDefenders = () => {
     }
 }
 
+const card1 = {
+    x: 10,
+    y: 10,
+    width: 70,
+    height: 85
+}
+const card2 = {
+    x: 90,
+    y: 10,
+    width: 70,
+    height: 85,
+}
+
+const chooseDefender = () => {
+    // img, sx, sy, sw, sh, dx, dy, dw, dh
+    ctx.lineWidth = 1;
+    ctx.fillStyle = 'rgba(0,0,0,0.333)';
+    ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
+    //
+    ctx.drawImage(defender1card, 0, 0, 1000, 1000, 10, 10, 95, 95);
+
+    ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
+}
+
+// FLOATING MESSAGES //
+const floatingMessages = [];
+class floatingMessage {
+    constructor(value, x, y, size, color){
+        this.value = value;
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.duration = 0;
+        this.color = color;
+        this.opacity = 1;
+    }
+    update(){
+        this.y -= 0.3;
+        this.duration += 1;
+        if (this.opacity > 0.01) this.opacity -= 0.01;
+    }
+    draw(){
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = this.color;
+        ctx.font = this.size + 'px Arial';
+        ctx.fillText(this.value, this.x, this.y);
+        ctx.globalAlpha = 1;
+    }
+}
+
+const handleFloatingMessages = () => {
+    for (let i = 0; i < floatingMessages.length; i++) {
+        floatingMessages[i].update();
+        floatingMessages[i].draw();
+        if (floatingMessages[i].duration >= 50){
+            floatingMessages.splice(i, 1);
+            i--;
+        }
+    }
+}
+
 // ENEMIES //
+// SET ENEMY TYPES //
+const enemyTypes = [];
+const enemy1 = new Image();
+enemy1.src = 'assets/enemy1.png';
+enemyTypes.push(enemy1);
+// const enemy2 = new Image();
+// enemy2.src = 'assets/enemy2.png';
+// enemyTypes.push(enemy2);
+
 class Enemy {
     constructor(verticalPosition) {
         this.x = canvas.width;
@@ -221,17 +297,32 @@ class Enemy {
         this.movement = this.speed;
         this.health = 100;
         this.maxHealth = this.health;
+        this.enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+        //ANIMATION PROPERTIES
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 6;
+        this.spriteWidth = 738;
+        this.spriteHeight = 388;
     }
     update(){
         //this will make the enemy move to the left
         this.x -= this.movement;
+        if (frame % 4 === 0) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
+        }
+
     }
     draw(){
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
-        ctx.font = '20px Arial';
-        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+        ctx.font = '16px Arial';
+        ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
+        // ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
+        ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -246,7 +337,9 @@ const handleEnemies = () => {
         if (enemies[i].health <= 0){
             //GAIN KILL
             numberOfCredits += enemies[i].maxHealth / 10;
+            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, 130, 80, 20, 'gold'))
             killCount += 1;
+            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'black'))
             //REMOVE VERTICAL POSITION
             const findThisIndex = enemyPositions.indexOf(enemies[i].y);
             enemyPositions.splice(findThisIndex, 1);
@@ -262,7 +355,7 @@ const handleEnemies = () => {
         enemies.push(new Enemy(verticalPosition));
         enemyPositions.push(verticalPosition);
         //stagger enemy rate
-        if (enemyRate > 150) enemyRate -= 100;
+        if (enemyRate > 80) enemyRate -= 10;
     }
 }
 // RESOURCES //
@@ -291,6 +384,8 @@ const handleResources = () => {
         resources[i].draw();
         if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)){
             morassium += resources[i].amount;
+            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'))
+            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, 150, 40, 20, 'gold'))
             resources.splice(i, 1);
             i--;
         }
@@ -301,8 +396,8 @@ const handleResources = () => {
 const handleGameStatus = () => {
     ctx.fillStyle = 'gold';
     ctx.font = '20px Arial';
-    ctx.fillText('Morassium: ' + morassium + ` // Collect ${winningScore} to clear level`, 20, 35);
-    ctx.fillText('Credits: ' + numberOfCredits, 20, 75);
+    ctx.fillText('Morassium: ' + morassium, 175, 35);
+    ctx.fillText('Credits: ' + numberOfCredits, 175, 75);
     if (gameOver){
         ctx.fillStyle = 'red';
         ctx.font = '60px Arial';
@@ -314,6 +409,28 @@ const handleGameStatus = () => {
         ctx.fillText('LEVEL CLEAR', 425, 60);
     }
 }
+
+//HANDLE DEFENDER CLICK
+canvas.addEventListener('click', ()=> {
+    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
+    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+    //STOP IT IF ITS IN THE HEADER
+    if (gridPositionY < cellSize) return;
+    //THIS PREVENTS STACKING
+    for (let i = 0; i < defenders.length; i++){
+        //loop through the defender array and check their position
+        //then get out of the loop if theres a stack
+        if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {return}
+    }
+    let defenderCost = 100;
+    //BUY DEFENDER
+    if (numberOfCredits >= defenderCost) {
+        defenders.push(new Defender(gridPositionX, gridPositionY));
+        numberOfCredits -= defenderCost;
+    } else {
+        floatingMessages.push(new floatingMessage("You require more credits", mouse.x, mouse.y, 15, 'red'))
+    }
+});
 
 //DA GAME LOOP
 //THIS IS WHAT HAPPENS IN A FRAME
@@ -329,8 +446,10 @@ const animate = () => {
     handleEnemies();
     handleResources();
     handleProjectiles();
+    chooseDefender();
+    handleFloatingMessages();
     frame++;
-    requestAnimationFrame(animate);
+    if (!gameOver) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
 
