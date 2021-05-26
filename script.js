@@ -22,7 +22,6 @@ let killCount = 0;
 let enemyRate = 600;
 let enemyPositions = [];
 let morassium = 0;
-let public
 let numberOfCredits = 500;
 let frame = 0;
 
