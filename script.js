@@ -27,7 +27,7 @@ let morassiumRate = 700;
 //others
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 3000;
+let numberOfCredits = 350;
 let incrementer = 10;
 let frame = 0;
 let killCount = 0;
