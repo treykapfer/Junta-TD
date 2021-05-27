@@ -304,6 +304,8 @@ boss.src = 'assets/boss.png';
 enemyTypes.push(boss);
 const speedling = new Image();
 speedling.src = 'assets/speedling.png';
+const enemy2 = new Image();
+enemy2.src = 'assets/enemy2.png'
 
 class Enemy {
     constructor(verticalPosition) {
@@ -382,6 +384,15 @@ const handleEnemies = () => {
         console.log(`${enemyRate} new enemy spawn rate`);
         }
     }
+    //SPAWNS HIGHER LEVEL ENEMIES AT STAGGERED RATE AFTER LEVEL 4
+    if (frame % (enemyRate + 150) === 0 && morassium < winningScore && level >= 4) {
+        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+        let newEnemy2 = new Enemy(verticalPosition);
+        newEnemy2.enemyType = enemy2;
+        newEnemy2.health = 200;
+        newEnemy2.maxHealth = 200;
+        enemies.push(newEnemy2);
+    }
     //CREATE TYPE 2 BY WAVE + RATE
 }
 
@@ -441,9 +452,9 @@ const handleSpeedling = () => {
             this.y = verticalPosition;
             this.width = cellSize + 50 - cellGap * 2;
             this.height = cellSize - cellGap * 2;
-            this.speed = Math.random() * 0.5 + 0.8;
+            this.speed = Math.random() * 0.6 + 0.8;
             this.movement = this.speed;
-            this.health = 500;
+            this.health = 750;
             this.maxHealth = this.health;
             this.enemyType = boss;
             //ANIMATION PROPERTIES
@@ -563,7 +574,7 @@ const handleLevelClear = () => {
         ///INCRIMENT VARIABLES AND DIFFICULTY
         incrementer++;
         level++;
-        if (morassiumRate < 300) morassiumRate += 25;
+        if (morassiumRate < 300) morassiumRate += (incrementer*2);
         if (winningScore < 999) winningScore = Math.min(Math.floor(winningScore + incrementer*5, 999));
         //ENEMY SCALING
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
