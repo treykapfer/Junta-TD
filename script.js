@@ -396,7 +396,12 @@ const handleEnemies = () => {
         enemies.push(newEnemy2);
         enemyPositions.push(verticalPosition);
     }
-    //CREATE TYPE 2 BY WAVE + RATE
+    //SPAWNS BOSS UNITS EVERY 10K FRAMES
+    if (frame % enemyRate === 10000 && morassium < winningScore && level > 5) {
+        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+        enemies.push(new Boss(verticalPosition));
+        enemyPositions.push(verticalPosition);
+    }
 }
 
 // SPEEDLING HANDLER //
@@ -448,7 +453,7 @@ const handleSpeedling = () => {
     } 
 }
 
-// BOSS WAVE HANDLER //
+// BOSS HANDLER //
     class Boss {
         constructor(verticalPosition) {
             this.x = canvas.width;
