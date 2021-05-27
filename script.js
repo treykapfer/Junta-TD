@@ -398,7 +398,7 @@ const handleEnemies = () => {
         enemyPositions.push(verticalPosition);
     }
     //SPAWNS BOSS UNITS EVERY 10K FRAMES
-    if (frame % 8500 === 0 && morassium < winningScore && level > 5) {
+    if (frame % (10000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         enemies.push(new Boss(verticalPosition));
         enemyPositions.push(verticalPosition);
