@@ -402,6 +402,7 @@ const handleEnemies = () => {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         enemies.push(new Boss(verticalPosition));
         enemyPositions.push(verticalPosition);
+        console.log("boss spawned");
     }
 }
 
