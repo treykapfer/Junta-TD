@@ -689,10 +689,10 @@ canvas.addEventListener('click', ()=> {
                     defenders[i].maxFrame = 10;
                     return;
                 }
+                else return;
             }
-            else return;
         }
-    }
+    } 
     //BUY DEFENDER
     if (numberOfCredits >= defenderCost) {
         defenders.push(new Defender(gridPositionX, gridPositionY));
