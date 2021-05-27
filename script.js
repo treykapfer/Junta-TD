@@ -35,6 +35,7 @@ let enemyBaseSpeed = 0.4;
 
 //SWITCHES
 let gameOver = false;
+let gameWon = false;
 let levelCleared = false;
 let bossActive = false;
 
@@ -574,6 +575,12 @@ const handleGameStatus = () => {
         ctx.font = '60px orbitron';
         levelCleared = true;
     }
+    if (level > 10) {
+        ctx.fillStyle = 'red';
+        ctx.font = '60px orbitron';
+        ctx.fillText('YOU WON!', 440, 72);
+        gameWon = true;
+    }
 }
 
 const handleLevelClear = () => {
@@ -669,7 +676,7 @@ const animate = () => {
     handleGameStatus();
     refreshMovement();
     frame++;
-    if (!gameOver) requestAnimationFrame(animate);
+    if (!gameOver && !gameWon) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
 
