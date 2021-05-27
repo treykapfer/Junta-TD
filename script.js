@@ -561,7 +561,6 @@ const animate = () => {
     //this is passing the game board constrolsBar
     // ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
     handleGameGrid();
-    handleGameStatus();
     handleLevelClear();
     handleBoss();
     handleDefenders();
@@ -570,6 +569,7 @@ const animate = () => {
     handleProjectiles();
     // chooseDefender();
     handleFloatingMessages();
+    handleGameStatus();
     refreshMovement();
     frame++;
     if (!gameOver) requestAnimationFrame(animate);
