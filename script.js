@@ -27,7 +27,7 @@ let morassiumRate = 700;
 //others
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 350;
+let numberOfCredits = 3000;
 let incrementer = 10;
 let frame = 0;
 let killCount = 0;
@@ -147,8 +147,9 @@ defender1.src = 'assets/defender1.png';
 // const defender1card = new Image();
 // defender1card.src = 'assets/defender1card.png';
 const tank = new Image();
-tank.src = 'assets/tank.png'
-
+tank.src = 'assets/tank.png';
+const destroyer = new Image();
+destroyer.src = 'assets/destroyer.png';
 
 class Defender {
     constructor(x, y){
@@ -196,9 +197,13 @@ class Defender {
             this.minFrame = 0;
             this.maxFrame = 16;
             }
-            else {
+            else if (this.defenderType === tank) {
                 this.minFrame = 0;
                 this.maxFrame = 10;
+            }
+            else {
+                this.minFrame = 0;
+                this.maxFrame = 7;
             }
         } else {
             //idle is not working - fix later
@@ -223,6 +228,9 @@ const handleDefenders = () => {
             if (defenders[i] && collision(defenders[i], enemies[j])){
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
+                if (defenders[i].defenderType === destroyer) {
+                    enemies[j].health -= 0.5;
+                }
             }
             if (defenders[i] && defenders[i].health <= 0){
                 defenders.splice(i, 1);
@@ -569,7 +577,7 @@ const handleGameStatus = () => {
     if (gameOver){
         ctx.fillStyle = 'red';
         ctx.font = '60px orbitron';
-        ctx.fillText('GAME OVER', 440, 72);
+        ctx.fillText('GAME OVER', 456, 72);
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
@@ -577,9 +585,9 @@ const handleGameStatus = () => {
         levelCleared = true;
     }
     if (level > 10) {
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'green';
         ctx.font = '60px orbitron';
-        ctx.fillText('YOU WON!', 440, 72);
+        ctx.fillText('YOU WON!', 456, 72);
         gameWon = true;
     }
 }
@@ -589,14 +597,19 @@ const handleLevelClear = () => {
         ///CLEAR STATS AND CASH IN MORASSIUM
         numberOfCredits += Math.floor(morassium*(incrementer/8));
         morassium = 0;
+        
         ////DISPLAY MESSAGE
+        if (level !== 10) {
         floatingMessages.push(new floatingMessage('LEVEL CLEARED', 425, 60, 32, 'lime'));
         floatingMessages.push(new floatingMessage('....CREDITS RECIEVED', 425, 120, 32, 'lime'));
+        }
+
         ///INCRIMENT VARIABLES AND DIFFICULTY
         incrementer++;
         level++;
         if (morassiumRate < 300) morassiumRate += (incrementer*2);
         if (winningScore < 999) winningScore = Math.min(Math.floor(winningScore + incrementer*5, 999));
+        
         //ENEMY SCALING
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
@@ -604,6 +617,7 @@ const handleLevelClear = () => {
         enemyBaseSpeed += .05;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
+
         //CONSOLE LOGS
         console.log(`${enemyBaseSpeed} is new base speed`);
         console.log(`${enemyFloor} is new enemy floor`);
@@ -628,16 +642,28 @@ canvas.addEventListener('click', ()=> {
         //loop through the defender array and check their position
         //then get out of the loop if theres a stack
         if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
-            if (defenders[i].defenderType === tank) return; 
-            else if (numberOfCredits >= upgradeCost) {
-                numberOfCredits -= upgradeCost;
-                defenders[i].defenderType = tank;
-                defenders[i].spriteWidth = 175;
-                defenders[i].spriteHeight = 157;
-                defenders[i].health = 300;
-                defenders[i].shootingSpeed = 65;
-                defenders[i].maxFrame = 10;
+            if (defenders[i].defenderType === tank) {
+                if (numberOfCredits >= (upgradeCost*2))
+                numberOfCredits -= (upgradeCost*2)
+                defenders[i].defenderType = destroyer;
+                defenders[i].spriteWidth = 240;
+                defenders[i].spriteHeight = 133;
+                defenders[i].health = 700;
+                defenders[i].shootingSpeed = 45;
+                defenders[i].maxFrame = 7;
                 return;
+            }
+            else if (defenders[i].defenderType === defender1) {
+                if (numberOfCredits >= upgradeCost) {
+                    numberOfCredits -= upgradeCost;
+                    defenders[i].defenderType = tank;
+                    defenders[i].spriteWidth = 175;
+                    defenders[i].spriteHeight = 157;
+                    defenders[i].health = 300;
+                    defenders[i].shootingSpeed = 65;
+                    defenders[i].maxFrame = 10;
+                    return;
+                }
             }
             else return;
         }
