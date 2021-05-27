@@ -18,22 +18,25 @@ const resources = [];
 //SCALING VARIABLES
 let level = 1;
 let winningScore = 80;
-let enemyRate = 600;
-let enemyRateIncrease = 25;
+let enemyRate = 650;
+let enemyRateIncrease = 20;
+let enemyFloor = 120;
+let enemyCeiling = enemyRate;
 let morassiumRate = 700;
 
 //others
-let baseEnemyRate = enemyRate;
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 400;
+let numberOfCredits = 350;
 let incrementer = 10;
 let frame = 0;
 let killCount = 0;
+let enemyBaseSpeed = 0.4;
 
 //SWITCHES
 let gameOver = false;
 let levelCleared = false;
+let bossActive = false;
 
 // mouse
 const mouse = {
@@ -287,9 +290,9 @@ const enemyTypes = [];
 const enemy1 = new Image();
 enemy1.src = 'assets/enemy1.png';
 enemyTypes.push(enemy1);
-// const enemy2 = new Image();
-// enemy2.src = 'assets/enemy2.png';
-// enemyTypes.push(enemy2);
+const boss = new Image();
+boss.src = 'assets/boss.png';
+enemyTypes.push(boss);
 
 class Enemy {
     constructor(verticalPosition) {
@@ -297,18 +300,18 @@ class Enemy {
         this.y = verticalPosition;
         this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.2 + 0.4;
+        this.speed = Math.random() * 0.2 + enemyBaseSpeed;
         this.movement = this.speed;
         this.health = 100;
         this.maxHealth = this.health;
-        this.enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+        this.enemyType = enemy1;
         //ANIMATION PROPERTIES
         this.frameX = 0;
         this.frameY = 0;
         this.minFrame = 0;
         this.maxFrame = 6;
         this.spriteWidth = 296;
-        this.spriteHeight = 156; 388
+        this.spriteHeight = 156;
     }
     update(){
         //this will make the enemy move to the left
@@ -342,7 +345,7 @@ const handleEnemies = () => {
         if (enemies[i].health <= 0){
             //FLOATERS
             floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, 130, 76, 20, 'gold'));
-            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'black'));
+            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'gold'));
             floatingMessages.push(new floatingMessage('+1', 332, 76, 20, 'gold'));
             //GAIN KILL
             numberOfCredits += enemies[i].maxHealth / 10;
@@ -362,12 +365,85 @@ const handleEnemies = () => {
         enemies.push(new Enemy(verticalPosition));
         enemyPositions.push(verticalPosition);
         //stagger enemy rate
-        if (enemyRate > 50) enemyRate -= enemyRateIncrease;
-        console.log(enemyRate);
+        if (enemyRate > enemyFloor) {
+            enemyRate -= enemyRateIncrease;
+            if (enemyRate < enemyFloor) {
+                enemyRate = enemyFloor;
+            }
+        console.log(`${enemyRate} new enemy spawn rate`);
+        }
+    }
+    //CREATE TYPE 2 BY WAVE + RATE
+}
+
+// BOSS WAVE HANDLER //
+    class Boss {
+        constructor(verticalPosition) {
+            this.x = canvas.width;
+            this.y = verticalPosition;
+            this.width = cellSize + 50 - cellGap * 2;
+            this.height = cellSize - cellGap * 2;
+            this.speed = Math.random() * 0.3 + 1.5;
+            this.movement = this.speed;
+            this.health = 500;
+            this.maxHealth = this.health;
+            this.enemyType = boss;
+            //ANIMATION PROPERTIES
+            this.frameX = 0;
+            this.frameY = 0;
+            this.minFrame = 0;
+            this.maxFrame = 12;
+            this.spriteWidth = 578;
+            this.spriteHeight = 450;
+        }
+        update(){
+            this.x -= this.movement;
+            if (frame % 3 === 0) {
+                if (this.frameX < this.maxFrame) this.frameX++;
+                else this.frameX = this.minFrame;
+            }
+
+        }
+        draw(){
+            ctx.fillStyle = 'gold';
+            ctx.font = '16px Arial';
+            ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
+            ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+}
+
+const handleBoss = () => {
+    if (level % 5 === 0 && bossActive == false) {
+        bossActive = true;
+        for (let i = 0; i < level; i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Boss(verticalPosition));
+            enemyPositions.push(verticalPosition);
+        }
+        for (let i = 0; i < level; i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Enemy(verticalPosition));
+            enemyPositions.push(verticalPosition);
+        }
+    } else if (level % 5 !== 0 ) bossActive = false;
+}
+
+//HOTFIX FOR MOVEMENT BUG
+const refreshMovement = () => {
+    for (let i = 0; i < defenders.length; i++) {
+        for (let j = 0; j < enemies.length; j++) {
+            if (defenders[i] && !collision(defenders[i], enemies[j])){
+                enemies[j].movement = enemies[j].speed;
+            }
+        }
     }
 }
+
 // RESOURCES //
+const morassiumImg = new Image();
+morassiumImg.src = 'assets/morassium.png';
 const amounts = [20, 30, 40];
+
 class Resource {
     constructor(){
         this.x = Math.random() * (canvas.width - cellSize);
@@ -377,15 +453,13 @@ class Resource {
         this.amount = amounts[Math.floor(Math.random()* amounts.length)];
     }
     draw(){
-        ctx.fillStyle = 'yellow';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillStyle = 'black';
+        ctx.drawImage(morassiumImg, 0, 0, 128, 128, this.x - 15, this.y - 15, this.width, this.height);
         ctx.font = '20px Arial';
         ctx.fillText(this.amount, this.x + 15, this.y + 25);
     }
 }
 const handleResources = () => {
-    if (frame % morassiumRate === 0 && morassium < winningScore){
+    if (frame % morassiumRate === 0 && morassium < winningScore && resources.length < 4){
         resources.push(new Resource());
     }
     for (let i = 0; i < resources.length; i++){
@@ -432,12 +506,20 @@ const handleLevelClear = () => {
         ///INCRIMENT VARIABLES AND DIFFICULTY
         incrementer++;
         level++;
-        if (morassiumRate < 600) morassiumRate += 25
+        if (morassiumRate < 300) morassiumRate += 25;
         winningScore = Math.floor(winningScore + incrementer*5);
-        enemyRate = Math.floor(enemyRate * (incrementer/10));
-        console.log(`${enemyRate} is new enemy rate`);
-        enemyRateIncrease = Math.floor(enemyRateIncrease * (incrementer/10))
+        //ENEMY SCALING
+        // enemyRate = Math.floor(enemyRate * (incrementer/10));
+        enemyCeiling = Math.floor(enemyCeiling - (incrementer*5))
+        enemyRate = enemyCeiling
+        enemyBaseSpeed += .033
+        enemyRateIncrease++;
+        enemyFloor = Math.max(enemyFloor - (incrementer), 25);
+        //CONSOLE LOGS
+        console.log(`${enemyFloor} is new enemy floor`);
+        console.log(`${enemyCeiling} is new enemy ceiling`);
         console.log(`${enemyRateIncrease} is new enemy increase rate`);
+
         levelCleared = false;
         
     }
@@ -465,25 +547,32 @@ canvas.addEventListener('click', ()=> {
     }
 });
 
+//LOAD BACKGROUND
+const background = new Image();
+background.src = 'assets/background.png';
+
 //DA GAME LOOP
 //THIS IS WHAT HAPPENS IN A FRAME
 const animate = () => {
     //this clears old highlight
     ctx.clearRect(0,0,canvas.width, canvas.height);
-    ctx.fillStyle = 'grey';
+    ctx.drawImage(background, 0, 0, 900, 600, 0, 0, 900, 600);
+    // ctx.fillStyle = 'grey';
     //this is passing the game board constrolsBar
-    ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
+    // ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
     handleGameGrid();
     handleGameStatus();
     handleLevelClear();
+    handleBoss();
     handleDefenders();
     handleEnemies();
     handleResources();
     handleProjectiles();
     // chooseDefender();
     handleFloatingMessages();
+    refreshMovement();
     frame++;
-    requestAnimationFrame(animate);
+    if (!gameOver) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
 
@@ -500,7 +589,7 @@ const collision = (first, second) => {
 //ELSE RETURNS FALSE
 }
 
-//CALL FUNCTIONS
+//CALL FUNCTIONS // ON LOAD
 createGrid();
 animate();
 
