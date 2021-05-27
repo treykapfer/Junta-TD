@@ -15,23 +15,25 @@ const enemies = [];
 const projectiles = [];
 const resources = [];
 
+//SCALING VARIABLES
 let level = 1;
-let winningScore = 200;
-let ledger = 0;
-let killCount = 0;
-let enemyRate = 700;
+let winningScore = 80;
+let enemyRate = 600;
+let enemyRateIncrease = 25;
+let morassiumRate = 700;
+
+//others
 let baseEnemyRate = enemyRate;
 let enemyPositions = [];
 let morassium = 0;
 let numberOfCredits = 400;
+let incrementer = 10;
 let frame = 0;
-
-//features to add
-let maxDeficit = -300;
-let councilScore = 500;
+let killCount = 0;
 
 //SWITCHES
 let gameOver = false;
+let levelCleared = false;
 
 // mouse
 const mouse = {
@@ -91,23 +93,25 @@ const handleGameGrid = () => {
     }
 }
 // PROJECTILES //
+const bullet = new Image();
+bullet.src = 'assets/bullet.png';
+
 class Projectile {
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.width = 10;
-        this.height = 10;
-        this.power = 20;
+        this.width = 20;
+        this.height = 20;
+        this.power = 15;
         this.speed = 5;
     }
     update(){
         this.x += this.speed;
     }
     draw(){
-        ctx.fillStyle = 'black';
+        ctx.drawImage(bullet, 0, 0, 64, 64, this.x, this.y - 15, this.width, this.height);
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
-        ctx.fill();
     }
 }
 
@@ -136,8 +140,8 @@ const handleProjectiles = () => {
 // DEFENDERS //
 const defender1 = new Image();
 defender1.src = 'assets/defender1.png';
-const defender1card = new Image();
-defender1card.src = 'assets/defender1card.png';
+// const defender1card = new Image();
+// defender1card.src = 'assets/defender1card.png';
 
 
 class Defender {
@@ -156,8 +160,8 @@ class Defender {
         this.frameY = 0;
         this.minFrame = 0;
         this.maxFrame = 22;
-        this.spriteWidth = 920;
-        this.spriteHeight = 1033;
+        this.spriteWidth = 181;
+        this.spriteHeight = 203;
     }
     draw(){
         // ctx.fillStyle = 'green';
@@ -169,7 +173,7 @@ class Defender {
     }
     update(){
         //run update if its shooting
-        if (frame % 3 === 0) {
+        if (frame % 4 === 0) {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = this.minFrame;
             if (this.frameX === 4) this.shootNow = true;
@@ -229,16 +233,16 @@ const card2 = {
     height: 85,
 }
 
-const chooseDefender = () => {
-    // img, sx, sy, sw, sh, dx, dy, dw, dh
-    ctx.lineWidth = 1;
-    ctx.fillStyle = 'rgba(0,0,0,0.333)';
-    ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
-    //
-    ctx.drawImage(defender1card, 0, 0, 1000, 1000, 10, 10, 95, 95);
+// const chooseDefender = () => {
+//     // img, sx, sy, sw, sh, dx, dy, dw, dh
+//     ctx.lineWidth = 1;
+//     ctx.fillStyle = 'rgba(0,0,0,0.333)';
+//     ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
+//     //
+//     ctx.drawImage(defender1card, 0, 0, 1000, 1000, 10, 10, 95, 95);
 
-    ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
-}
+//     ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
+// }
 
 // FLOATING MESSAGES //
 const floatingMessages = [];
@@ -303,8 +307,8 @@ class Enemy {
         this.frameY = 0;
         this.minFrame = 0;
         this.maxFrame = 6;
-        this.spriteWidth = 738;
-        this.spriteHeight = 388;
+        this.spriteWidth = 296;
+        this.spriteHeight = 156; 388
     }
     update(){
         //this will make the enemy move to the left
@@ -331,15 +335,18 @@ const handleEnemies = () => {
     for (let i = 0; i < enemies.length; i++){
         enemies[i].update();
         enemies[i].draw();
+        //LOSS CONDITION
         if (enemies[i].x < 0){
             gameOver = true;
         }
         if (enemies[i].health <= 0){
+            //FLOATERS
+            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, 130, 76, 20, 'gold'));
+            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'black'));
+            floatingMessages.push(new floatingMessage('+1', 332, 76, 20, 'gold'));
             //GAIN KILL
             numberOfCredits += enemies[i].maxHealth / 10;
-            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, 130, 80, 20, 'gold'))
             killCount += 1;
-            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'black'))
             //REMOVE VERTICAL POSITION
             const findThisIndex = enemyPositions.indexOf(enemies[i].y);
             enemyPositions.splice(findThisIndex, 1);
@@ -355,7 +362,8 @@ const handleEnemies = () => {
         enemies.push(new Enemy(verticalPosition));
         enemyPositions.push(verticalPosition);
         //stagger enemy rate
-        if (enemyRate > 80) enemyRate -= 10;
+        if (enemyRate > 50) enemyRate -= enemyRateIncrease;
+        console.log(enemyRate);
     }
 }
 // RESOURCES //
@@ -377,15 +385,15 @@ class Resource {
     }
 }
 const handleResources = () => {
-    if (frame % 1000 === 0 && morassium < winningScore){
+    if (frame % morassiumRate === 0 && morassium < winningScore){
         resources.push(new Resource());
     }
     for (let i = 0; i < resources.length; i++){
         resources[i].draw();
         if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)){
             morassium += resources[i].amount;
-            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'))
-            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, 150, 40, 20, 'gold'))
+            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'));
+            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, 150, 16, 16, 'gold'));
             resources.splice(i, 1);
             i--;
         }
@@ -396,8 +404,11 @@ const handleResources = () => {
 const handleGameStatus = () => {
     ctx.fillStyle = 'gold';
     ctx.font = '20px Arial';
-    ctx.fillText('Morassium: ' + morassium, 175, 35);
-    ctx.fillText('Credits: ' + numberOfCredits, 175, 75);
+    ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
+    ctx.fillText('Credits: ' + numberOfCredits, 16, 72);
+    ctx.fillText('Level: ' + level, 214, 36);
+    ctx.fillText('Kill Count: ' + killCount, 214, 72);
+
     if (gameOver){
         ctx.fillStyle = 'red';
         ctx.font = '60px Arial';
@@ -406,7 +417,29 @@ const handleGameStatus = () => {
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
         ctx.font = '60px Arial';
-        ctx.fillText('LEVEL CLEAR', 425, 60);
+        levelCleared = true;
+    }
+}
+
+const handleLevelClear = () => {
+    if (levelCleared === true) {
+        ///CLEAR STATS AND CASH IN MORASSIUM
+        numberOfCredits += Math.floor(morassium*(incrementer/8));
+        morassium = 0;
+        ////DISPLAY MESSAGE
+        floatingMessages.push(new floatingMessage('LEVEL CLEARED', 425, 60, 32, 'lime'));
+        floatingMessages.push(new floatingMessage('....CREDITS RECIEVED', 425, 120, 32, 'lime'));
+        ///INCRIMENT VARIABLES AND DIFFICULTY
+        incrementer++;
+        level++;
+        if (morassiumRate < 600) morassiumRate += 25
+        winningScore = Math.floor(winningScore + incrementer*5);
+        enemyRate = Math.floor(enemyRate * (incrementer/10));
+        console.log(`${enemyRate} is new enemy rate`);
+        enemyRateIncrease = Math.floor(enemyRateIncrease * (incrementer/10))
+        console.log(`${enemyRateIncrease} is new enemy increase rate`);
+        levelCleared = false;
+        
     }
 }
 
@@ -442,14 +475,15 @@ const animate = () => {
     ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
     handleGameGrid();
     handleGameStatus();
+    handleLevelClear();
     handleDefenders();
     handleEnemies();
     handleResources();
     handleProjectiles();
-    chooseDefender();
+    // chooseDefender();
     handleFloatingMessages();
     frame++;
-    if (!gameOver) requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
 
