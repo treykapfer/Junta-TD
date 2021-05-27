@@ -145,6 +145,8 @@ const defender1 = new Image();
 defender1.src = 'assets/defender1.png';
 // const defender1card = new Image();
 // defender1card.src = 'assets/defender1card.png';
+const tank = new Image();
+tank.src = 'assets/tank.png'
 
 
 class Defender {
@@ -158,6 +160,7 @@ class Defender {
         this.shootNow = false;
         this.health = 100;
         this.shootingSpeed = 100;
+        this.defenderType = defender1;
         //ANIMATION
         this.frameX = 0;
         this.frameY = 0;
@@ -170,9 +173,9 @@ class Defender {
         // ctx.fillStyle = 'green';
         // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
-        ctx.font = '20px Arial';
-        ctx.fillText(Math.floor(this.health), this.x + 20, this.y + 93);
-        ctx.drawImage(defender1, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        ctx.font = '14px orbitron';
+        ctx.fillText(Math.floor(this.health), this.x + 28, this.y + 100);
+        ctx.drawImage(this.defenderType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
     update(){
         //run update if its shooting
@@ -187,9 +190,15 @@ class Defender {
                 this.shootNow = false;
             }
         if (this.shooting) {
+            if (this.defenderType === defender1) {
             //shooting animation frames
             this.minFrame = 0;
             this.maxFrame = 16;
+            }
+            else {
+                this.minFrame = 0;
+                this.maxFrame = 10;
+            }
         } else {
             //idle is not working - fix later
             this.minFrame = 0;
@@ -223,18 +232,18 @@ const handleDefenders = () => {
     }
 }
 
-const card1 = {
-    x: 10,
-    y: 10,
-    width: 70,
-    height: 85
-}
-const card2 = {
-    x: 90,
-    y: 10,
-    width: 70,
-    height: 85,
-}
+// const card1 = {
+//     x: 10,
+//     y: 10,
+//     width: 70,
+//     height: 85
+// }
+// const card2 = {
+//     x: 90,
+//     y: 10,
+//     width: 70,
+//     height: 85,
+// }
 
 // const chooseDefender = () => {
 //     // img, sx, sy, sw, sh, dx, dy, dw, dh
@@ -267,7 +276,7 @@ class floatingMessage {
     draw(){
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
-        ctx.font = this.size + 'px Arial';
+        ctx.font = this.size + 'px orbitron';
         ctx.fillText(this.value, this.x, this.y);
         ctx.globalAlpha = 1;
     }
@@ -293,6 +302,8 @@ enemyTypes.push(enemy1);
 const boss = new Image();
 boss.src = 'assets/boss.png';
 enemyTypes.push(boss);
+const speedling = new Image();
+speedling.src = 'assets/speedling.png';
 
 class Enemy {
     constructor(verticalPosition) {
@@ -326,7 +337,7 @@ class Enemy {
         // ctx.fillStyle = 'red';
         // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
-        ctx.font = '16px Arial';
+        ctx.font = '14px orbitron';
         ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
         // ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
         ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
@@ -344,9 +355,7 @@ const handleEnemies = () => {
         }
         if (enemies[i].health <= 0){
             //FLOATERS
-            floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, 130, 76, 20, 'gold'));
             floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'gold'));
-            floatingMessages.push(new floatingMessage('+1', 332, 76, 20, 'gold'));
             //GAIN KILL
             numberOfCredits += enemies[i].maxHealth / 10;
             killCount += 1;
@@ -376,6 +385,55 @@ const handleEnemies = () => {
     //CREATE TYPE 2 BY WAVE + RATE
 }
 
+// SPEEDLING HANDLER //
+class Speedling {
+    constructor(verticalPosition) {
+        this.x = canvas.width;
+        this.y = verticalPosition;
+        this.width = cellSize + 50 - cellGap * 2;
+        this.height = cellSize - cellGap * 2;
+        this.speed = Math.random() * 0.5 + 4;
+        this.movement = this.speed;
+        this.health = 40;
+        this.maxHealth = this.health;
+        this.enemyType = speedling;
+        //ANIMATION PROPERTIES
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 4;
+        this.spriteWidth = 258;
+        this.spriteHeight = 258;
+    }
+    update(){
+        this.x -= this.movement;
+        if (frame % 3 === 0) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
+        }
+
+    }
+    draw(){
+        ctx.fillStyle = 'gold';
+        ctx.font = '14px orbitron';
+        ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
+        ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
+
+let speedlingMultiplier = 1;
+const handleSpeedling = () => {
+    if (frame % 2500 === 0 && frame !== 0) {
+        for (let i = 0; i < speedlingMultiplier; i++) {
+            console.log("speedling spawned")
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Speedling(verticalPosition));
+            enemyPositions.push(verticalPosition);
+        }
+        speedlingMultiplier++;
+    } 
+}
+
 // BOSS WAVE HANDLER //
     class Boss {
         constructor(verticalPosition) {
@@ -383,7 +441,7 @@ const handleEnemies = () => {
             this.y = verticalPosition;
             this.width = cellSize + 50 - cellGap * 2;
             this.height = cellSize - cellGap * 2;
-            this.speed = Math.random() * 0.3 + 1.5;
+            this.speed = Math.random() * 0.5 + 0.8;
             this.movement = this.speed;
             this.health = 500;
             this.maxHealth = this.health;
@@ -406,16 +464,16 @@ const handleEnemies = () => {
         }
         draw(){
             ctx.fillStyle = 'gold';
-            ctx.font = '16px Arial';
+            ctx.font = '14px orbitron';
             ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
             ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
-}
+    }
 
 const handleBoss = () => {
     if (level % 5 === 0 && bossActive == false) {
         bossActive = true;
-        for (let i = 0; i < level; i++) {
+        for (let i = 0; i < level/2; i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Boss(verticalPosition));
             enemyPositions.push(verticalPosition);
@@ -454,7 +512,7 @@ class Resource {
     }
     draw(){
         ctx.drawImage(morassiumImg, 0, 0, 128, 128, this.x - 15, this.y - 15, this.width, this.height);
-        ctx.font = '20px Arial';
+        ctx.font = '14px orbitron';
         ctx.fillText(this.amount, this.x + 15, this.y + 25);
     }
 }
@@ -467,7 +525,6 @@ const handleResources = () => {
         if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)){
             morassium += resources[i].amount;
             floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'));
-            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, 150, 16, 16, 'gold'));
             resources.splice(i, 1);
             i--;
         }
@@ -477,20 +534,20 @@ const handleResources = () => {
 // utilities //
 const handleGameStatus = () => {
     ctx.fillStyle = 'gold';
-    ctx.font = '20px Arial';
+    ctx.font = '20px orbitron';
     ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
     ctx.fillText('Credits: ' + numberOfCredits, 16, 72);
-    ctx.fillText('Level: ' + level, 214, 36);
-    ctx.fillText('Kill Count: ' + killCount, 214, 72);
+    ctx.fillText('Level: ' + level, 258, 36);
+    ctx.fillText('Kill Count: ' + killCount, 258, 72);
 
     if (gameOver){
         ctx.fillStyle = 'red';
-        ctx.font = '60px Arial';
+        ctx.font = '60px orbitron';
         ctx.fillText('GAME OVER', 425, 60);
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
-        ctx.font = '60px Arial';
+        ctx.font = '60px orbitron';
         levelCleared = true;
     }
 }
@@ -529,15 +586,30 @@ const handleLevelClear = () => {
 canvas.addEventListener('click', ()=> {
     const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
     const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+    let defenderCost = 100;
+    let upgradeCost = 500;
     //STOP IT IF ITS IN THE HEADER
     if (gridPositionY < cellSize) return;
-    //THIS PREVENTS STACKING
+    //LOOP THROUGH THE ARRAY AND CHECK FOR SAME POSITION
     for (let i = 0; i < defenders.length; i++){
         //loop through the defender array and check their position
         //then get out of the loop if theres a stack
-        if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {return}
+        if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
+            console.log("in the 1st if check");
+            if (defenders[i].defenderType === tank) return; 
+            else if (numberOfCredits >= upgradeCost) {
+                numberOfCredits -= upgradeCost;
+                defenders[i].defenderType = tank;
+                defenders[i].spriteWidth = 175;
+                defenders[i].spriteHeight = 157;
+                defenders[i].health = 350;
+                defenders[i].shootingSpeed = 65;
+                defenders[i].maxFrame = 10;
+                return;
+            }
+            else return;
+        }
     }
-    let defenderCost = 100;
     //BUY DEFENDER
     if (numberOfCredits >= defenderCost) {
         defenders.push(new Defender(gridPositionX, gridPositionY));
@@ -563,6 +635,7 @@ const animate = () => {
     handleGameGrid();
     handleLevelClear();
     handleBoss();
+    handleSpeedling();
     handleDefenders();
     handleEnemies();
     handleResources();

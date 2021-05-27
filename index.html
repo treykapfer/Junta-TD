@@ -6,11 +6,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet"> 
+    <!-- style sheet -->
     <link rel="stylesheet" href="style.css">
-    <title>Junta TD - Proof of Concept</title>
+    <title>Junta Commander</title>
 </head>
 <body>
-    <canvas id="game_canvas"></canvas>
+    <div id="wrapper">
+        <header>
+            <h1>JUNTA COMMANDER</h1>
+        </header>
+        <section>
+            <ul>
+                <div class="col">
+                    <li><span>Collect required morassium to clear each level</span></li>
+                    <li><span>Morassium is exchanged for credits at the end of each level</span></li>
+                </div>
+                <div class="col">
+                    <li><span>Click on the grid to purchase a defender for 100 credits</span></li>
+                    <li><span>Click on a defender to upgrade it for 500 credits</span></li>
+                </div>
+            </ul>
+        </section>
+        <main>
+            <canvas id="game_canvas"></canvas>
+        </main>
+        <footer>
+            <p>Game by TJKapfer//MrChow</p>
+            <p>Done with vanilla JS canvas</p>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

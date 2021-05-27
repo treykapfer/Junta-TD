@@ -1,12 +1,119 @@
+/* ROOT VARIABLES */
+:root {
+    --textcolor: lime;
+    --texthighlight: honeydew;
+    --bgcolor: rgb(0, 0, 0);
+    --bordercolor: rgb(87, 87, 87);
+    --transhighlight: rgba(174, 0, 255, 0.12);
+
+    --globalmar: .5em;
+    --globalpad: .5em;
+    --roundedge: 10px;
+    --rounderedge: 25px;
+}
+
+/* GLOBAL*/
+* {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--textcolor);
+    margin: 0px;
+}
+
+html, body {
+    height: 100%;
+}
+
 body {
     background: black;
     margin: 0px auto;
-    display: flex;
-    justify-content: center;
 }
 
+#wrapper {
+    /*CENTER EVERYTHING*/
+    align-items: center;
+    margin: 0px auto;
+
+    width: 1080px;
+    height: 100%;
+
+    color: var(--textcolor);
+    background-color: var(--bgcolor);
+    background-image: url(assets/metal_seamless.png);
+}
+
+/*FLEX CENTER*/
+header, main {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+/*FLEX COLUMN*/
+#wrapper, .col, footer, section {
+    display: flex;
+    flex-direction: column;
+}
+
+.col, section {
+justify-content: center;
+}
+
+/*BORDER SETTER*/
+section, #game_canvas {
+    width: 900px;
+
+    border-radius: var(--roundedge);
+    border: 2px solid black;
+    box-shadow:
+    0px 0px 0 6px var(--bordercolor),
+    0px 0px 0 8px black,
+    inset 0px 0px 4px 4px var(--transhighlight);
+}
+
+/* HEADER */
+header h1 {
+    text-shadow: 1px 1px 5px var(--texthighlight);
+}
+
+/* MAIN */
+/* MENU BAR */
+section {
+    background-color: black;
+    background-image: url(assets/electricity_seamless.png);
+    background-size:contain;
+    height: 72px;
+}
+
+section ul {
+    display: flex;
+    list-style: square;
+}
+
+section li {
+    color: var(--textcolor);
+    padding-left: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+ul li span {
+    color: var(--texthighlight);
+}
+
+/* GAME */
 #game_canvas {
     background-color: white;
-    width: 900px;
     height: 600px;
+}
+
+/*FOOTER*/
+footer {
+    width: 900px;
+    text-align: right;
+}
+
+footer p {
+    color: var(--texthighlight);
+    font-size: 80%;
 }
