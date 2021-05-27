@@ -385,7 +385,7 @@ const handleEnemies = () => {
         }
     }
     //SPAWNS HIGHER LEVEL ENEMIES AT STAGGERED RATE AFTER LEVEL 4
-    if (frame % (enemyRate + 150) === 0 && morassium < winningScore && level >= 4) {
+    if (frame % (enemyRate + 200 - (incrementer*5)/2) === 0 && morassium < winningScore && level >= 4) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
             newEnemy2.enemyType = enemy2;
@@ -457,7 +457,7 @@ const handleSpeedling = () => {
             this.height = cellSize - cellGap * 2;
             this.speed = Math.random() * 0.6 + 0.4 + enemyBaseSpeed;
             this.movement = this.speed;
-            this.health = 750;
+            this.health = 500;
             this.maxHealth = this.health;
             this.enemyType = boss;
             //ANIMATION PROPERTIES
@@ -485,19 +485,24 @@ const handleSpeedling = () => {
     }
 
 const handleBoss = () => {
+    //SPAWN ON 5's
     if (level % 5 === 0 && bossActive == false) {
         bossActive = true;
-        for (let i = 0; i < level/2; i++) {
-            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-            enemies.push(new Boss(verticalPosition));
-            enemyPositions.push(verticalPosition);
+        if (level % 5 === 0) {
+            for (let i = 0; i < level/2; i++) {
+                let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+                enemies.push(new Boss(verticalPosition));
+                enemyPositions.push(verticalPosition);
+            }
         }
         for (let i = 0; i < level; i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-            enemies.push(new Enemy(verticalPosition));
+            enemies.push(new Speedling(verticalPosition));
             enemyPositions.push(verticalPosition);
         }
-    } else if (level % 5 !== 0 ) bossActive = false;
+    }
+    //turn off if not on level divisible by 5
+    else if (level % 5 !== 0) bossActive = false;
 }
 
 //HOTFIX FOR MOVEMENT BUG
@@ -557,7 +562,7 @@ const handleGameStatus = () => {
     if (gameOver){
         ctx.fillStyle = 'red';
         ctx.font = '60px orbitron';
-        ctx.fillText('GAME OVER', 425, 72);
+        ctx.fillText('GAME OVER', 440, 72);
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
@@ -581,9 +586,9 @@ const handleLevelClear = () => {
         if (winningScore < 999) winningScore = Math.min(Math.floor(winningScore + incrementer*5, 999));
         //ENEMY SCALING
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
-        enemyCeiling = Math.floor(enemyCeiling - (incrementer*5))
-        enemyRate = enemyCeiling
-        enemyBaseSpeed += .033
+        enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
+        enemyRate = enemyCeiling;
+        enemyBaseSpeed += .05;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         //CONSOLE LOGS
