@@ -392,9 +392,9 @@ class Speedling {
         this.y = verticalPosition;
         this.width = cellSize + 50 - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.5 + 4;
+        this.speed = Math.random() * 0.7 + 3;
         this.movement = this.speed;
-        this.health = 40;
+        this.health = 50;
         this.maxHealth = this.health;
         this.enemyType = speedling;
         //ANIMATION PROPERTIES
@@ -537,8 +537,8 @@ const handleGameStatus = () => {
     ctx.font = '20px orbitron';
     ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
     ctx.fillText('Credits: ' + numberOfCredits, 16, 72);
-    ctx.fillText('Level: ' + level, 258, 36);
-    ctx.fillText('Kill Count: ' + killCount, 258, 72);
+    ctx.fillText('Level: ' + level, 264, 36);
+    ctx.fillText('Kill Count: ' + killCount, 264, 72);
 
     if (gameOver){
         ctx.fillStyle = 'red';
@@ -564,7 +564,7 @@ const handleLevelClear = () => {
         incrementer++;
         level++;
         if (morassiumRate < 300) morassiumRate += 25;
-        winningScore = Math.floor(winningScore + incrementer*5);
+        if (winningScore < 999) winningScore = Math.min(Math.floor(winningScore + incrementer*5, 999));
         //ENEMY SCALING
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.floor(enemyCeiling - (incrementer*5))
@@ -602,7 +602,7 @@ canvas.addEventListener('click', ()=> {
                 defenders[i].defenderType = tank;
                 defenders[i].spriteWidth = 175;
                 defenders[i].spriteHeight = 157;
-                defenders[i].health = 350;
+                defenders[i].health = 300;
                 defenders[i].shootingSpeed = 65;
                 defenders[i].maxFrame = 10;
                 return;
