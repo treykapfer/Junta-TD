@@ -230,6 +230,31 @@ const handleDefenders = () => {
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
                     enemies[j].health -= 0.5;
+                    //FIRE ANIMATION
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+5+Math.floor(Math.random()*5), enemies[j].y+70+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+5+Math.floor(Math.random()*6), enemies[j].y+70+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
+                    ctx.fillRect(enemies[j].x+5 + Math.floor(Math.random()*7), enemies[j].y+70 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+5 + Math.floor(Math.random()*8), enemies[j].y+70 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+10+Math.floor(Math.random()*5), enemies[j].y+65+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+10+Math.floor(Math.random()*6), enemies[j].y+65+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
+                    ctx.fillRect(enemies[j].x+10 + Math.floor(Math.random()*7), enemies[j].y+65 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+10 + Math.floor(Math.random()*8), enemies[j].y+65 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+Math.floor(Math.random()*5), enemies[j].y+70+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x+Math.floor(Math.random()*6), enemies[j].y+70+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
+                    ctx.fillRect(enemies[j].x + Math.floor(Math.random()*7), enemies[j].y+70 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
+                    ctx.fillRect(enemies[j].x + Math.floor(Math.random()*8), enemies[j].y+70 + Math.floor(Math.random()*8), 5, 5);
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
