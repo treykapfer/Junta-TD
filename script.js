@@ -174,7 +174,7 @@ class Defender {
         // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
         ctx.font = '14px orbitron';
-        ctx.fillText(Math.floor(this.health), this.x + 28, this.y + 100);
+        ctx.fillText(Math.floor(this.health), this.x + 28, this.y);
         ctx.drawImage(this.defenderType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
     update(){
@@ -388,10 +388,13 @@ const handleEnemies = () => {
     if (frame % (enemyRate + 150) === 0 && morassium < winningScore && level >= 4) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
-        newEnemy2.enemyType = enemy2;
-        newEnemy2.health = 200;
-        newEnemy2.maxHealth = 200;
+            newEnemy2.enemyType = enemy2;
+            newEnemy2.health = 200;
+            newEnemy2.maxHealth = 200;
+            newEnemy2.speed = Math.random() * 0.5 + enemyBaseSpeed;
+            newEnemy2.movement = newEnemy2.speed;
         enemies.push(newEnemy2);
+        enemyPositions.push(verticalPosition);
     }
     //CREATE TYPE 2 BY WAVE + RATE
 }
@@ -401,9 +404,9 @@ class Speedling {
     constructor(verticalPosition) {
         this.x = canvas.width;
         this.y = verticalPosition;
-        this.width = cellSize + 50 - cellGap * 2;
+        this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.7 + 3;
+        this.speed = Math.random() * 0.7 + 3 + enemyBaseSpeed;
         this.movement = this.speed;
         this.health = 50;
         this.maxHealth = this.health;
@@ -452,7 +455,7 @@ const handleSpeedling = () => {
             this.y = verticalPosition;
             this.width = cellSize + 50 - cellGap * 2;
             this.height = cellSize - cellGap * 2;
-            this.speed = Math.random() * 0.6 + 0.8;
+            this.speed = Math.random() * 0.6 + 0.4 + enemyBaseSpeed;
             this.movement = this.speed;
             this.health = 750;
             this.maxHealth = this.health;
@@ -554,7 +557,7 @@ const handleGameStatus = () => {
     if (gameOver){
         ctx.fillStyle = 'red';
         ctx.font = '60px orbitron';
-        ctx.fillText('GAME OVER', 425, 60);
+        ctx.fillText('GAME OVER', 425, 72);
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
@@ -584,6 +587,7 @@ const handleLevelClear = () => {
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         //CONSOLE LOGS
+        console.log(`${enemyBaseSpeed} is new base speed`);
         console.log(`${enemyFloor} is new enemy floor`);
         console.log(`${enemyCeiling} is new enemy ceiling`);
         console.log(`${enemyRateIncrease} is new enemy increase rate`);
@@ -606,7 +610,6 @@ canvas.addEventListener('click', ()=> {
         //loop through the defender array and check their position
         //then get out of the loop if theres a stack
         if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
-            console.log("in the 1st if check");
             if (defenders[i].defenderType === tank) return; 
             else if (numberOfCredits >= upgradeCost) {
                 numberOfCredits -= upgradeCost;
