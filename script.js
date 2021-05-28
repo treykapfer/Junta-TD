@@ -229,7 +229,7 @@ const handleDefenders = () => {
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
-                    enemies[j].health -= 0.3;
+                    enemies[j].health -= 0.35;
                     //FIRE ANIMATION
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
                     ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*5), enemies[j].y+60+Math.floor(Math.random()*5), 7, 7);
