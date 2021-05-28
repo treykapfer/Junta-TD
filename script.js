@@ -254,8 +254,11 @@ const handleDefenders = () => {
                     enemies[j].health -= 0.4;
                     ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
-                if (enemies[j].enemyType === boss || megaboss) {
+                if (enemies[j].enemyType === boss) {
                     defenders[i].health -= 0.2;
+                }
+                if (enemies[j].enemyType === megaboss) {
+                    defenders[i].health -= 0.4;
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
