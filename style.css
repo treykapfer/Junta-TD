@@ -109,8 +109,28 @@ ul li span {
 
 /*FOOTER*/
 footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 900px;
     text-align: right;
+    padding-left: var(--globalpad);
+}
+
+button {
+    background-color: black;
+    border: 2px solid var(--bordercolor);
+    width: 100px;
+    height: 40px;
+    border-radius: var(--roundedge);
+}
+
+button:hover {
+    box-shadow:         inset 0 0 10px rgba(0, 255, 13, 0.507);
+    -moz-box-shadow:    inset 0 0 10px rgba(0, 255, 13, 0.507);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 255, 13, 0.507);
+
+    text-shadow: 1px 1px 5px var(--texthighlight);
 }
 
 footer p {
