@@ -657,7 +657,7 @@ canvas.addEventListener('click', ()=> {
                 defenders[i].defenderType = destroyer;
                 defenders[i].spriteWidth = 240;
                 defenders[i].spriteHeight = 133;
-                defenders[i].health = 700;
+                defenders[i].health = 500;
                 defenders[i].shootingSpeed = 45;
                 defenders[i].maxFrame = 7;
                 return;
@@ -668,7 +668,7 @@ canvas.addEventListener('click', ()=> {
                     defenders[i].defenderType = tank;
                     defenders[i].spriteWidth = 175;
                     defenders[i].spriteHeight = 157;
-                    defenders[i].health = 300;
+                    defenders[i].health = 250;
                     defenders[i].shootingSpeed = 65;
                     defenders[i].maxFrame = 10;
                     return;
