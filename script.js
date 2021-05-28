@@ -188,7 +188,18 @@ class Defender {
         }
 
         if (this.shooting && this.shootNow) {
-                projectiles.push(new Projectile(this.x + 50, this.y + 30));
+                let newBullet = new Projectile(this.x + 50, this.y + 35);
+                if (this.defenderType == tank) {
+                    newBullet.power = 20;
+                    newBullet.height = 25;
+                    newBullet.width = 25;
+                }
+                if (this.defenderType == destroyer) {
+                    newBullet.power = 25;
+                    newBullet.height = 30;
+                    newBullet.width = 30;
+                }
+                projectiles.push(newBullet);
                 this.shootNow = false;
             }
         if (this.shooting) {
@@ -213,6 +224,17 @@ class Defender {
     }
 }
 
+
+const flame1 = new Image();
+flame1.src = 'assets/flame(1).png';
+const flame2 = new Image();
+flame2.src = 'assets/flame(2).png';
+const flame3 = new Image();
+flame3.src = 'assets/flame(3).png';
+const flame4 = new Image();
+flame4.src = 'assets/flame(4).png';
+const flames = [flame1, flame2, flame3, flame4];
+
 const handleDefenders = () => {
     for (let i = 0; i < defenders.length; i++) {
         defenders[i].draw();
@@ -229,32 +251,8 @@ const handleDefenders = () => {
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
-                    enemies[j].health -= 0.35;
-                    //FIRE ANIMATION
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*5), enemies[j].y+60+Math.floor(Math.random()*5), 7, 7);
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*6), enemies[j].y+60+Math.floor(Math.random()*6), 7, 7);
-                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*7), enemies[j].y+60 + Math.floor(Math.random()*7), 5, 5);
-                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*8), enemies[j].y+60 + Math.floor(Math.random()*8), 5, 5);
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*5), enemies[j].y+65+Math.floor(Math.random()*5), 7, 7);
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*6), enemies[j].y+65+Math.floor(Math.random()*6), 7, 7);
-                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*7), enemies[j].y+65 + Math.floor(Math.random()*7), 5, 5);
-                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*8), enemies[j].y+65 + Math.floor(Math.random()*8), 5, 5);
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*5), enemies[j].y+55+Math.floor(Math.random()*5), 7, 7);
-                    ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*6), enemies[j].y+55+Math.floor(Math.random()*6), 7, 7);
-                    ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*7), enemies[j].y+55 + Math.floor(Math.random()*7), 5, 5);
-                    ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*8), enemies[j].y+55 + Math.floor(Math.random()*8), 5, 5);
+                    enemies[j].health -= 0.4;
+                    ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 36, 36);
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
