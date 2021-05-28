@@ -407,11 +407,11 @@ const handleEnemies = () => {
         console.log(`${enemyRate + (Math.floor(1000/(incrementer-7)))} is blue bug rate`);
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
-            newEnemy2.enemyType = enemy2;
-            newEnemy2.health = 200;
-            newEnemy2.maxHealth = 200;
-            newEnemy2.speed = Math.random() * 0.5 + enemyBaseSpeed;
-            newEnemy2.movement = newEnemy2.speed;
+        newEnemy2.enemyType = enemy2;
+        newEnemy2.health = 200;
+        newEnemy2.maxHealth = 200;
+        newEnemy2.speed = Math.random() * 0.5 + enemyBaseSpeed;
+        newEnemy2.movement = newEnemy2.speed;
         enemies.push(newEnemy2);
         enemyPositions.push(verticalPosition);
     }
@@ -424,9 +424,10 @@ const handleEnemies = () => {
             console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
         }
     }
-
-    if (frame % (10000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
-        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+    //SPAWN MEGA BOSS WITH MINIONS
+    if (frame % (10500 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
+        for (let i = 0; i < Math.max(BossIncrementer-1,1); i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newMegaBoss = new Boss(verticalPosition);
             newMegaBoss.enemyType = megaboss;
             newMegaBoss.health = 750;
@@ -435,8 +436,20 @@ const handleEnemies = () => {
             newMegaBoss.movement = newMegaBoss.speed;
             newMegaBoss.spriteWidth = 295;
             newMegaBoss.spriteHeight = 230;
-        enemies.push(newMegaBoss);
-        enemyPositions.push(verticalPosition);
+            enemies.push(newMegaBoss);
+            enemyPositions.push(verticalPosition);
+            }
+        for (let i = 0; i < 5; i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            let newEnemy2 = new Enemy(verticalPosition);
+            newEnemy2.enemyType = enemy2;
+            newEnemy2.health = 200;
+            newEnemy2.maxHealth = 200;
+            newEnemy2.speed = Math.random() * 0.5 + enemyBaseSpeed;
+            newEnemy2.movement = newEnemy2.speed;
+            enemies.push(newEnemy2);
+            enemyPositions.push(verticalPosition);
+        }
         console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
     }
 }
