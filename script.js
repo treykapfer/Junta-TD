@@ -377,7 +377,7 @@ const handleEnemies = () => {
             i--;
         }
     }
-    //CREATE ENEMY BY RATE
+    //CREATE basic ENEMY BY RATE
     if (frame % enemyRate === 0 && morassium < winningScore){
         //math.random/floor for a random row on grid
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
@@ -393,7 +393,7 @@ const handleEnemies = () => {
         }
     }
     //SPAWNS HIGHER LEVEL ENEMIES AT STAGGERED RATE AFTER LEVEL 4
-    if (frame % (enemyRate + 200 - (incrementer*5)/2) === 0 && morassium < winningScore && level >= 4) {
+    if (frame % (enemyRate + 200 - (incrementer*3)) === 0 && morassium < winningScore && level >= 4) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
             newEnemy2.enemyType = enemy2;
@@ -653,10 +653,11 @@ canvas.addEventListener('click', ()=> {
             if (defenders[i].defenderType === tank) {
                 if (numberOfCredits > secondUpgradeCost) {
                 numberOfCredits -= secondUpgradeCost;
+                ///CREATE DESTROYER
                 defenders[i].defenderType = destroyer;
                 defenders[i].spriteWidth = 240;
                 defenders[i].spriteHeight = 133;
-                defenders[i].health = 500;
+                defenders[i].health = 400;
                 defenders[i].shootingSpeed = 45;
                 defenders[i].maxFrame = 7;
                 return;
@@ -666,6 +667,7 @@ canvas.addEventListener('click', ()=> {
             else if (defenders[i].defenderType === defender1) {
                 if (numberOfCredits >= upgradeCost) {
                     numberOfCredits -= upgradeCost;
+                    ///CREATE TANK
                     defenders[i].defenderType = tank;
                     defenders[i].spriteWidth = 175;
                     defenders[i].spriteHeight = 157;
