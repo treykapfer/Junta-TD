@@ -444,7 +444,7 @@ class Speedling {
         this.y = verticalPosition;
         this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed/2;
+        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed;
         this.movement = this.speed;
         this.health = 50;
         this.maxHealth = this.health;
