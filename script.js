@@ -232,29 +232,29 @@ const handleDefenders = () => {
                     enemies[j].health -= 0.3;
                     //FIRE ANIMATION
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*5), enemies[j].y+50+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*5), enemies[j].y+60+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*6), enemies[j].y+50+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*6), enemies[j].y+60+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*7), enemies[j].y+50 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*7), enemies[j].y+60 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*8), enemies[j].y+50 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*8), enemies[j].y+60 + Math.floor(Math.random()*8), 5, 5);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*5), enemies[j].y+55+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*5), enemies[j].y+65+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*6), enemies[j].y+55+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*6), enemies[j].y+65+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*7), enemies[j].y+55 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*7), enemies[j].y+65 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*8), enemies[j].y+55 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*8), enemies[j].y+65 + Math.floor(Math.random()*8), 5, 5);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*5), enemies[j].y+50+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*5), enemies[j].y+55+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*6), enemies[j].y+50+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*6), enemies[j].y+55+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*7), enemies[j].y+50 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*7), enemies[j].y+55 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*8), enemies[j].y+50 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*8), enemies[j].y+55 + Math.floor(Math.random()*8), 5, 5);
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
@@ -265,30 +265,6 @@ const handleDefenders = () => {
         }
     }
 }
-
-// const card1 = {
-//     x: 10,
-//     y: 10,
-//     width: 70,
-//     height: 85
-// }
-// const card2 = {
-//     x: 90,
-//     y: 10,
-//     width: 70,
-//     height: 85,
-// }
-
-// const chooseDefender = () => {
-//     // img, sx, sy, sw, sh, dx, dy, dw, dh
-//     ctx.lineWidth = 1;
-//     ctx.fillStyle = 'rgba(0,0,0,0.333)';
-//     ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
-//     //
-//     ctx.drawImage(defender1card, 0, 0, 1000, 1000, 10, 10, 95, 95);
-
-//     ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
-// }
 
 // FLOATING MESSAGES //
 const floatingMessages = [];
@@ -725,10 +701,10 @@ const animate = () => {
     // ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
     handleGameGrid();
     handleLevelClear();
+    handleDefenders();
     handleBoss();
     handleSpeedling();
     handleEnemies();
-    handleDefenders();
     handleResources();
     handleProjectiles();
     // chooseDefender();
