@@ -232,29 +232,29 @@ const handleDefenders = () => {
                     enemies[j].health -= 0.3;
                     //FIRE ANIMATION
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+5+Math.floor(Math.random()*5), enemies[j].y+70+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*5), enemies[j].y+50+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+5+Math.floor(Math.random()*6), enemies[j].y+70+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+50+Math.floor(Math.random()*6), enemies[j].y+50+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+5 + Math.floor(Math.random()*7), enemies[j].y+70 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*7), enemies[j].y+50 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+5 + Math.floor(Math.random()*8), enemies[j].y+70 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x+50 + Math.floor(Math.random()*8), enemies[j].y+50 + Math.floor(Math.random()*8), 5, 5);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+10+Math.floor(Math.random()*5), enemies[j].y+65+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*5), enemies[j].y+55+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+10+Math.floor(Math.random()*6), enemies[j].y+65+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+40+Math.floor(Math.random()*6), enemies[j].y+55+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x+10 + Math.floor(Math.random()*7), enemies[j].y+65 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*7), enemies[j].y+55 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+10 + Math.floor(Math.random()*8), enemies[j].y+65 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x+40 + Math.floor(Math.random()*8), enemies[j].y+55 + Math.floor(Math.random()*8), 5, 5);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+Math.floor(Math.random()*5), enemies[j].y+70+Math.floor(Math.random()*5), 7, 7);
+                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*5), enemies[j].y+50+Math.floor(Math.random()*5), 7, 7);
                     ctx.fillStyle = 'rgba(255,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x+Math.floor(Math.random()*6), enemies[j].y+70+Math.floor(Math.random()*6), 7, 7);
+                    ctx.fillRect(enemies[j].x+55+Math.floor(Math.random()*6), enemies[j].y+50+Math.floor(Math.random()*6), 7, 7);
                     ctx.fillStyle = 'rgba(255,165,0,0.333)';
-                    ctx.fillRect(enemies[j].x + Math.floor(Math.random()*7), enemies[j].y+70 + Math.floor(Math.random()*7), 5, 5);
+                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*7), enemies[j].y+50 + Math.floor(Math.random()*7), 5, 5);
                     ctx.fillStyle = 'rgba(139,0,0,0.333)';
-                    ctx.fillRect(enemies[j].x + Math.floor(Math.random()*8), enemies[j].y+70 + Math.floor(Math.random()*8), 5, 5);
+                    ctx.fillRect(enemies[j].x +55+ Math.floor(Math.random()*8), enemies[j].y+50 + Math.floor(Math.random()*8), 5, 5);
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
@@ -525,6 +525,14 @@ const handleSpeedling = () => {
     }
 
 const handleBoss = () => {
+    //FINAL WAVE SPAWN
+    if (level === 10 && frame % 2500 === 0 ) {
+        for (let i = 1; i <= 5; i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Boss(verticalPosition));
+            enemyPositions.push(verticalPosition);
+        }
+    }
     //SPAWN ON 5's
     if (level % 5 === 0 && bossActive == false) {
         bossActive = true;
@@ -719,8 +727,8 @@ const animate = () => {
     handleLevelClear();
     handleBoss();
     handleSpeedling();
-    handleDefenders();
     handleEnemies();
+    handleDefenders();
     handleResources();
     handleProjectiles();
     // chooseDefender();
