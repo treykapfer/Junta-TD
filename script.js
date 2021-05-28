@@ -254,6 +254,9 @@ const handleDefenders = () => {
                     enemies[j].health -= 0.4;
                     ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
+                if (enemies[j].enemyType === boss || megaboss) {
+                    defenders[i].health -= 0.2;
+                }
             }
             if (defenders[i] && defenders[i].health <= 0){
                 defenders.splice(i, 1);
@@ -313,7 +316,10 @@ enemyTypes.push(boss);
 const speedling = new Image();
 speedling.src = 'assets/speedling.png';
 const enemy2 = new Image();
-enemy2.src = 'assets/enemy2.png'
+enemy2.src = 'assets/enemy2.png';
+const megaboss = new Image();
+megaboss.src = 'assets/megaboss.png';
+let BossIncrementer = 1;
 
 class Enemy {
     constructor(verticalPosition) {
@@ -380,21 +386,21 @@ const handleEnemies = () => {
     //CREATE basic ENEMY BY RATE
     if (frame % enemyRate === 0 && morassium < winningScore){
         //math.random/floor for a random row on grid
-        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-        enemies.push(new Enemy(verticalPosition));
-        enemyPositions.push(verticalPosition);
-        //stagger enemy rate
-        if (enemyRate > enemyFloor) {
-            enemyRate -= enemyRateIncrease;
-            if (enemyRate < enemyFloor) {
-                enemyRate = enemyFloor;
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Enemy(verticalPosition));
+            enemyPositions.push(verticalPosition);
+            //stagger enemy rate
+            if (enemyRate > enemyFloor) {
+                enemyRate -= enemyRateIncrease;
+                if (enemyRate < enemyFloor) {
+                    enemyRate = enemyFloor;
+                }
+            console.log(`${enemyRate} new enemy spawn rate`);
             }
-        console.log(`${enemyRate} new enemy spawn rate`);
-        }
     }
     //SPAWNS HIGHER LEVEL ENEMIES AT STAGGERED RATE AFTER LEVEL 4
-    //LEVEL 7 - 17 
     if (frame % (enemyRate + (Math.floor(1000/(incrementer-7)))) === 0 && morassium < winningScore && level >= 4) {
+        console.log(`${enemyRate + (Math.floor(1000/(incrementer-7)))} is blue bug rate`);
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
             newEnemy2.enemyType = enemy2;
@@ -406,11 +412,28 @@ const handleEnemies = () => {
         enemyPositions.push(verticalPosition);
     }
     //SPAWNS BOSS UNITS EVERY 10K FRAMES
-    if (frame % (10000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
+    if (frame % (9000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
+        for (let i = 0; i < BossIncrementer; i++) {
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            enemies.push(new Boss(verticalPosition));
+            enemyPositions.push(verticalPosition);
+            console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
+        }
+    }
+
+    if (frame % (10000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-        enemies.push(new Boss(verticalPosition));
+            let newMegaBoss = new Boss(verticalPosition);
+            newMegaBoss.enemyType = megaboss;
+            newMegaBoss.health = 750;
+            newMegaBoss.maxHealth = 750;
+            newMegaBoss.speed = Math.random() * 0.6 + 0.7 + enemyBaseSpeed;
+            newMegaBoss.movement = newMegaBoss.speed;
+            newMegaBoss.spriteWidth = 295;
+            newMegaBoss.spriteHeight = 230;
+        enemies.push(newMegaBoss);
         enemyPositions.push(verticalPosition);
-        console.log("boss spawned");
+        console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
     }
 }
 
@@ -421,7 +444,7 @@ class Speedling {
         this.y = verticalPosition;
         this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.7 + 3 + enemyBaseSpeed;
+        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed;
         this.movement = this.speed;
         this.health = 50;
         this.maxHealth = this.health;
@@ -513,9 +536,25 @@ const handleBoss = () => {
         bossActive = true;
         if (level % 5 === 0) {
             for (let i = 0; i < level/2; i++) {
-                let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-                enemies.push(new Boss(verticalPosition));
-                enemyPositions.push(verticalPosition);
+                if (level === 5) {
+                    let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+                    enemies.push(new Boss(verticalPosition));
+                    enemyPositions.push(verticalPosition);
+                }
+                
+                if (level === 10) {
+                    let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+                    let newMegaBoss = new Boss(verticalPosition);
+                    newMegaBoss.enemyType = megaboss;
+                    newMegaBoss.health = 750;
+                    newMegaBoss.maxHealth = 750;
+                    newMegaBoss.speed = Math.random() * 0.6 + 0.7 + enemyBaseSpeed;
+                    newMegaBoss.movement = newMegaBoss.speed;
+                    newMegaBoss.spriteWidth = 295;
+                    newMegaBoss.spriteHeight = 230;
+                    enemies.push(newMegaBoss);
+                    enemyPositions.push(verticalPosition);
+                }
             }
         }
         for (let i = 0; i < level; i++) {
@@ -625,6 +664,8 @@ const handleLevelClear = () => {
         enemyBaseSpeed += .05;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
+        if (level === 8) BossIncrementer++;
+        if (level === 10) BossIncrementer++;
 
         //CONSOLE LOGS
         console.log(`${enemyBaseSpeed} is new base speed`);
