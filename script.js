@@ -444,7 +444,7 @@ class Speedling {
         this.y = verticalPosition;
         this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed;
+        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed/2;
         this.movement = this.speed;
         this.health = 50;
         this.maxHealth = this.health;
@@ -661,7 +661,7 @@ const handleLevelClear = () => {
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
         enemyRate = enemyCeiling;
-        enemyBaseSpeed += .25;
+        enemyBaseSpeed += .1;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         if (level === 8) BossIncrementer++;
