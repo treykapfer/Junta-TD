@@ -661,7 +661,7 @@ const handleLevelClear = () => {
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
         enemyRate = enemyCeiling;
-        enemyBaseSpeed += .05;
+        enemyBaseSpeed += .25;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         if (level === 8) BossIncrementer++;
