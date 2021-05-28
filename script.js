@@ -608,8 +608,8 @@ const handleLevelClear = () => {
         
         ////DISPLAY MESSAGE
         if (level !== 10) {
-        floatingMessages.push(new floatingMessage('LEVEL CLEARED', 425, 60, 32, 'lime'));
-        floatingMessages.push(new floatingMessage('....CREDITS RECIEVED', 425, 120, 32, 'lime'));
+        floatingMessages.push(new floatingMessage('LEVEL CLEARED', 444, 60, 32, 'lime'));
+        floatingMessages.push(new floatingMessage('....CREDITS RECIEVED', 444, 120, 32, 'lime'));
         }
 
         ///INCRIMENT VARIABLES AND DIFFICULTY
