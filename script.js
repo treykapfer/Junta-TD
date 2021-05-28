@@ -690,7 +690,7 @@ canvas.addEventListener('click', ()=> {
                     return;
                 }
                 else return;
-            }
+            } else return;
         }
     } 
     //BUY DEFENDER
