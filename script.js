@@ -251,7 +251,7 @@ const handleDefenders = () => {
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
-                    enemies[j].health -= 0.4;
+                    enemies[j].health -= 0.3;
                     ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
                 if (enemies[j].enemyType === boss) {
