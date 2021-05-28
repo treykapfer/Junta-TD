@@ -118,11 +118,14 @@ footer {
 }
 
 button {
-    background-color: black;
+    background-color: grey;
     border: 2px solid var(--bordercolor);
     width: 100px;
     height: 40px;
     border-radius: var(--roundedge);
+    background-image: url(assets/metal_seamless.png);
+    color: black;
+    font-weight: bold;
 }
 
 button:hover {
