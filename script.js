@@ -644,6 +644,7 @@ canvas.addEventListener('click', ()=> {
     const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
     let defenderCost = 100;
     let upgradeCost = 500;
+    let secondUpgradeCost = 1000;
     //STOP IT IF ITS IN THE HEADER
     if (gridPositionY < cellSize) return;
     //LOOP THROUGH THE ARRAY AND CHECK FOR SAME POSITION
@@ -652,8 +653,8 @@ canvas.addEventListener('click', ()=> {
         //then get out of the loop if theres a stack
         if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
             if (defenders[i].defenderType === tank) {
-                if (numberOfCredits >= (upgradeCost*2))
-                numberOfCredits -= (upgradeCost*2)
+                if (numberOfCredits > secondUpgradeCost) {
+                numberOfCredits -= secondUpgradeCost;
                 defenders[i].defenderType = destroyer;
                 defenders[i].spriteWidth = 240;
                 defenders[i].spriteHeight = 133;
@@ -661,6 +662,8 @@ canvas.addEventListener('click', ()=> {
                 defenders[i].shootingSpeed = 45;
                 defenders[i].maxFrame = 7;
                 return;
+                }
+                else return;
             }
             else if (defenders[i].defenderType === defender1) {
                 if (numberOfCredits >= upgradeCost) {
@@ -676,7 +679,7 @@ canvas.addEventListener('click', ()=> {
                 else return;
             } else return;
         }
-    } 
+    }
     //BUY DEFENDER
     if (numberOfCredits >= defenderCost) {
         defenders.push(new Defender(gridPositionX, gridPositionY));
