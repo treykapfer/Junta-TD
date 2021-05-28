@@ -27,7 +27,7 @@ let morassiumRate = 700;
 //others
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 350;
+let numberOfCredits = 3500;
 let incrementer = 10;
 let frame = 0;
 let killCount = 0;
@@ -252,7 +252,7 @@ const handleDefenders = () => {
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
                     enemies[j].health -= 0.4;
-                    ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 36, 36);
+                    ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
@@ -393,7 +393,8 @@ const handleEnemies = () => {
         }
     }
     //SPAWNS HIGHER LEVEL ENEMIES AT STAGGERED RATE AFTER LEVEL 4
-    if (frame % (enemyRate + 200 - (incrementer*3)) === 0 && morassium < winningScore && level >= 4) {
+    //LEVEL 7 - 17 
+    if (frame % (enemyRate + (Math.floor(1000/(incrementer-7)))) === 0 && morassium < winningScore && level >= 4) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newEnemy2 = new Enemy(verticalPosition);
             newEnemy2.enemyType = enemy2;
@@ -594,7 +595,7 @@ const handleGameStatus = () => {
     if (level > 10) {
         ctx.fillStyle = 'green';
         ctx.font = '60px orbitron';
-        ctx.fillText('YOU WON!', 456, 72);
+        ctx.fillText('YOU WON!', 500, 72);
         gameWon = true;
     }
 }
