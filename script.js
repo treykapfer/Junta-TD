@@ -418,6 +418,13 @@ const handleEnemies = () => {
         enemies.push(newEnemy2);
         enemyPositions.push(verticalPosition);
     }
+    //SPAWNS SPEEDLINGS AT LEVEL 3
+    if (frame % (enemyRate + (Math.floor(1000/(incrementer-6)))) === 0 && morassium < winningScore && level >= 3) {
+        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+        enemies.push(new Speedling(verticalPosition));
+        enemyPositions.push(verticalPosition);
+    }
+
     //SPAWNS BOSS UNITS EVERY 10K FRAMES
     if (frame % (9000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
         for (let i = 0; i < BossIncrementer; i++) {
