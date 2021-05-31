@@ -151,6 +151,10 @@ tank.src = 'assets/tank.png';
 const destroyer = new Image();
 destroyer.src = 'assets/destroyer.png';
 
+//ANIMATION BREAKDOWN
+//Frame # increments up through to max frame
+//Multiply frame by the sprite width/height
+
 class Defender {
     constructor(x, y){
         this.x = x;
@@ -180,7 +184,6 @@ class Defender {
         ctx.drawImage(this.defenderType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
     update(){
-        //run update if its shooting
         if (frame % 4 === 0) {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = this.minFrame;
@@ -492,7 +495,7 @@ class Speedling {
 
 let speedlingMultiplier = 1;
 const handleSpeedling = () => {
-    if (frame % 2500 === 0 && frame !== 0) {
+    if (frame % 2500 === 0 && frame !== 0 && level !== 1) {
         for (let i = 0; i < speedlingMultiplier; i++) {
             console.log("speedling spawned")
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
