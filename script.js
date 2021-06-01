@@ -471,7 +471,7 @@ const handleEnemies = () => {
         newSuperSpeedling.enemyType = superspeedling;
         newSuperSpeedling.health = 70;
         newSuperSpeedling.maxHealth = 70;
-        newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
+        newSuperSpeedling.speed = Math.random() * 0.6 + 2.2 + BossIncrementer/2 + (enemyBaseSpeed*2);
         newSuperSpeedling.movement = newSuperSpeedling.speed;
         enemies.push(newSuperSpeedling);
         enemyPositions.push(verticalPosition);
@@ -485,7 +485,7 @@ class Speedling {
         this.y = verticalPosition;
         this.width = cellSize - cellGap * 2;
         this.height = cellSize - cellGap * 2;
-        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/2 + enemyBaseSpeed;
+        this.speed = Math.random() * 0.6 + 2 + BossIncrementer/3 + enemyBaseSpeed;
         this.movement = this.speed;
         this.health = 50;
         this.maxHealth = this.health;
@@ -534,7 +534,7 @@ const handleSpeedling = () => {
             newSuperSpeedling.enemyType = superspeedling;
             newSuperSpeedling.health = 70;
             newSuperSpeedling.maxHealth = 70;
-            newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
+            newSuperSpeedling.speed = Math.random() * 0.6 + 2.2 + BossIncrementer/2 + (enemyBaseSpeed*2);
             newSuperSpeedling.movement = newSuperSpeedling.speed;
             enemies.push(newSuperSpeedling);
             enemyPositions.push(verticalPosition);
@@ -718,7 +718,7 @@ const handleLevelClear = () => {
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
         enemyRate = enemyCeiling;
-        enemyBaseSpeed += .04;
+        enemyBaseSpeed += .0333;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         if (level === 7) BossIncrementer++;
