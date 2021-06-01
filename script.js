@@ -327,6 +327,8 @@ enemy2.src = 'assets/enemy2.png';
 const megaboss = new Image();
 megaboss.src = 'assets/megaboss.png';
 let BossIncrementer = 1;
+const superspeedling = new Image();
+superspeedling.src = 'assets/superspeedling.png';
 
 class Enemy {
     constructor(verticalPosition) {
@@ -419,7 +421,7 @@ const handleEnemies = () => {
         enemyPositions.push(verticalPosition);
     }
     //SPAWNS SPEEDLINGS AT LEVEL 3
-    if (frame % (enemyRate + (Math.floor(1000/(incrementer-6)))) === 0 && morassium < winningScore && level >= 3) {
+    if (frame % (enemyRate + (Math.floor(900/(incrementer-6)))) === 0 && morassium < winningScore && level >= 3) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         enemies.push(new Speedling(verticalPosition));
         enemyPositions.push(verticalPosition);
@@ -462,6 +464,18 @@ const handleEnemies = () => {
         }
         console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
     }
+    //SPAWNS SUPER SPEEDLINGS AT LEVEL 8
+    if (frame % (enemyRate + (Math.floor(900/(incrementer-7)))) === 0 && morassium < winningScore && level >= 8) {
+        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+        let newSuperSpeedling = new Speedling(verticalPosition);
+        newSuperSpeedling.enemyType = superspeedling;
+        newSuperSpeedling.health = 40;
+        newSuperSpeedling.maxHealth = 40;
+        newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
+        newSuperSpeedling.movement = newSuperSpeedling.speed;
+        enemies.push(newSuperSpeedling);
+        enemyPositions.push(verticalPosition);
+    }
 }
 
 // SPEEDLING HANDLER //
@@ -502,11 +516,27 @@ class Speedling {
 
 let speedlingMultiplier = 1;
 const handleSpeedling = () => {
-    if (frame % 2500 === 0 && frame !== 0 && level !== 1) {
+    if (frame % 2500 === 0 && level !== 1) {
         for (let i = 0; i < speedlingMultiplier; i++) {
             console.log("speedling spawned")
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Speedling(verticalPosition));
+            enemyPositions.push(verticalPosition);
+        }
+        speedlingMultiplier++;
+    }
+
+    if (frame % 3000 === 0 && level >= 9) {
+        for (let i = 0; i < speedlingMultiplier/3; i++) {
+            console.log("super speedling spawned");
+            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+            let newSuperSpeedling = new Speedling(verticalPosition);
+            newSuperSpeedling.enemyType = superspeedling;
+            newSuperSpeedling.health = 40;
+            newSuperSpeedling.maxHealth = 40;
+            newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
+            newSuperSpeedling.movement = newSuperSpeedling.speed;
+            enemies.push(newSuperSpeedling);
             enemyPositions.push(verticalPosition);
         }
         speedlingMultiplier++;
@@ -691,7 +721,7 @@ const handleLevelClear = () => {
         enemyBaseSpeed += .05;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
-        if (level === 8) BossIncrementer++;
+        if (level === 7) BossIncrementer++;
         if (level === 10) BossIncrementer++;
 
         //CONSOLE LOGS
