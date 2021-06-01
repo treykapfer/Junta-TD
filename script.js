@@ -469,8 +469,8 @@ const handleEnemies = () => {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newSuperSpeedling = new Speedling(verticalPosition);
         newSuperSpeedling.enemyType = superspeedling;
-        newSuperSpeedling.health = 40;
-        newSuperSpeedling.maxHealth = 40;
+        newSuperSpeedling.health = 70;
+        newSuperSpeedling.maxHealth = 70;
         newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
         newSuperSpeedling.movement = newSuperSpeedling.speed;
         enemies.push(newSuperSpeedling);
@@ -532,8 +532,8 @@ const handleSpeedling = () => {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newSuperSpeedling = new Speedling(verticalPosition);
             newSuperSpeedling.enemyType = superspeedling;
-            newSuperSpeedling.health = 40;
-            newSuperSpeedling.maxHealth = 40;
+            newSuperSpeedling.health = 70;
+            newSuperSpeedling.maxHealth = 70;
             newSuperSpeedling.speed = Math.random() * 0.6 + 2 + BossIncrementer + (enemyBaseSpeed*2);
             newSuperSpeedling.movement = newSuperSpeedling.speed;
             enemies.push(newSuperSpeedling);
