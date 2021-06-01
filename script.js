@@ -254,7 +254,7 @@ const handleDefenders = () => {
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
                 if (defenders[i].defenderType === destroyer) {
-                    enemies[j].health -= 0.3;
+                    enemies[j].health -= 0.4;
                     ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
                 //EXTRA DAMAGE FROM BOSSES
@@ -718,7 +718,7 @@ const handleLevelClear = () => {
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
         enemyRate = enemyCeiling;
-        enemyBaseSpeed += .05;
+        enemyBaseSpeed += .04;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         if (level === 7) BossIncrementer++;
