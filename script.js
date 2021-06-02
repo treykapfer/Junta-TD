@@ -435,7 +435,7 @@ const handleEnemies = () => {
     }
 
     //SPAWNS BOSS UNITS EVERY 7K FRAMES
-    if (frame % (7000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
+    if (frame % (6500 - (incrementer+level)*100) === 0 && morassium < winningScore && level >= 6) {
         for (let i = 0; i < BossIncrementer; i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Boss(verticalPosition));
@@ -444,7 +444,7 @@ const handleEnemies = () => {
         }
     }
     //SPAWN MEGA BOSS WITH MINIONS
-    if (frame % (9500 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
+    if (frame % (8500 - (incrementer+level)*100) === 0 && morassium < winningScore && level >= 7) {
         for (let i = 0; i < Math.max(BossIncrementer-1,1); i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newMegaBoss = new Boss(verticalPosition);
@@ -596,9 +596,7 @@ const handleBoss = () => {
         }
     }
     //SPAWN ON 5's
-    if (level % 5 === 0 && bossActive == false) {
-        bossActive = true;
-        if (level % 5 === 0) {
+    if (level % 5 === 0 && frame % 5500 === 0) {
             for (let i = 0; i < level/2; i++) {
                 if (level === 5) {
                     let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
@@ -620,15 +618,13 @@ const handleBoss = () => {
                     enemyPositions.push(verticalPosition);
                 }
             }
-        }
+        //SPEEDLING FRIENDS
         for (let i = 0; i < level; i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Speedling(verticalPosition));
             enemyPositions.push(verticalPosition);
         }
     }
-    //turn off if not on level divisible by 5
-    else if (level % 5 !== 0) bossActive = false;
 }
 
 //HOTFIX FOR MOVEMENT BUG
