@@ -444,7 +444,7 @@ const handleEnemies = () => {
         }
     }
     //SPAWN MEGA BOSS WITH MINIONS
-    if (frame % (8500 - (incrementer+level)*100) === 0 && morassium < winningScore && level >= 7) {
+    if (frame % (9350 - (incrementer+level+BossIncrementer*2)*100) === 0 && morassium < winningScore && level >= 7) {
         for (let i = 0; i < Math.max(BossIncrementer-1,1); i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newMegaBoss = new Boss(verticalPosition);
@@ -476,9 +476,9 @@ const handleEnemies = () => {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
         let newSuperSpeedling = new Speedling(verticalPosition);
         newSuperSpeedling.enemyType = superspeedling;
-        newSuperSpeedling.health = 70;
-        newSuperSpeedling.maxHealth = 70;
-        newSuperSpeedling.speed = Math.random() * 0.6 + 2.2 + BossIncrementer/2 + (enemyBaseSpeed*2);
+        newSuperSpeedling.health = 100;
+        newSuperSpeedling.maxHealth = 100;
+        newSuperSpeedling.speed = Math.random() * 0.6 + 2.5 + BossIncrementer/2 + (enemyBaseSpeed*2);
         newSuperSpeedling.movement = newSuperSpeedling.speed;
         enemies.push(newSuperSpeedling);
         enemyPositions.push(verticalPosition);
@@ -539,9 +539,9 @@ const handleSpeedling = () => {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newSuperSpeedling = new Speedling(verticalPosition);
             newSuperSpeedling.enemyType = superspeedling;
-            newSuperSpeedling.health = 70;
-            newSuperSpeedling.maxHealth = 70;
-            newSuperSpeedling.speed = Math.random() * 0.6 + 2.2 + BossIncrementer/2 + (enemyBaseSpeed*2);
+            newSuperSpeedling.health = 100;
+            newSuperSpeedling.maxHealth = 100;
+            newSuperSpeedling.speed = Math.random() * 0.6 + 2.5 + BossIncrementer/2 + (enemyBaseSpeed*2);
             newSuperSpeedling.movement = newSuperSpeedling.speed;
             enemies.push(newSuperSpeedling);
             enemyPositions.push(verticalPosition);
