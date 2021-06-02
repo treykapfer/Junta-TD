@@ -7,5 +7,5 @@ to power Imperial Terra's blockchain currency... Eradicate any
 local resistance you encounter.
 
 ///This is my first solo project and javascript game.
-Download the folder, unzip, then open index.html in any browser
+Download the folder, unzip, then open menu.html in any browser
 Mostly tested on Mozilla and Chrome.

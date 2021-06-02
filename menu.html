@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- welcome commander
+    this is the vanilla javascript file before transfer to react -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"> 
+    <!-- style sheet -->
+    <link rel="stylesheet" href="style.css">
+    <title>Junta Commander</title>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>JUNTA COMMANDER</h1>
+        </header>
+        <main>
+            <div class = game_header>
+                <h3>Good Day, Commander</h3>
+                <p>The year is 2159. You are a commander in the Earth High Junta. It is your duty to extract morassium from alien worlds in order to power Imperial Terra's blockchain currency... Eradicate any local resistance you encounter.</p>
+            </div>
+            <div id= info_box_container>
+                <div class = "col">
+                    <div class = "info_card">
+                        <img src=assets\defender_card.png>
+                        <div class = "col">
+                            <h4>Play Defenders</h4>
+                            <p>Place defenders on the grid to defend extractors</p>
+                        </div>
+                    </div>
+                    <div class = "info_card">
+                        <img src=assets\tank_card.png>
+                        <div class = "col">
+                            <h4>Upgrade Defenders</h4>
+                            <p>Click on a defender to upgrade it for 500 or 1000 credits</p>
+                        </div>
+                    </div>
+                    <div class = "info_card">
+                        <img src=assets\morassium_card.png>
+                        <div class = "col">
+                            <h4>Collect Morassium</h4>
+                            <p>Clear each wave by collecting required morassium</p>
+                        </div>
+                    </div>
+                </div>
+                <div class = "col">
+                    <div class = "info_card">
+                        <img src=assets\miner_card.png>
+                        <div class = "col">
+                            <h4>Protect Extractors</h4>
+                            <p>You incur a fine if your morassium extractors perish</p>
+                        </div>
+                    </div>
+                    <div class = "info_card">
+                        <img src=assets\enemy_card.png>
+                        <div class = "col">
+                            <h4>Stop Hostile Advance</h4>
+                            <p>YOU LOSE if an enemy reaches the farthest left tile</p>
+                        </div>
+                    </div>
+                    <div class = "info_card">
+                        <img src=assets\boss_card.png>
+                        <div class = "col">
+                            <h4>Kill 'em All</h4>
+                            <p>YOU WIN if you defeat all 10 waves of hostiles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer id="menu_footer">
+            <div>
+                <a href="index.html"><button id="menu_button">Play Game</button></a>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

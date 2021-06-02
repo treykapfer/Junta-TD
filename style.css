@@ -1,6 +1,7 @@
 /* ROOT VARIABLES */
 :root {
-    --textcolor: lime;
+    --heavytext: lime;
+    --textcolor: rgb(132, 255, 132);
     --texthighlight: honeydew;
     --bgcolor: rgb(0, 0, 0);
     --bordercolor: rgb(87, 87, 87);
@@ -42,14 +43,14 @@ body {
 }
 
 /*FLEX CENTER*/
-header, main {
+header, main, #info_box_container {
     display: flex;
     justify-content: center;
     margin: 1rem;
 }
 
 /*FLEX COLUMN*/
-#wrapper, .col, footer, section {
+#wrapper, .col, footer, section, main {
     display: flex;
     flex-direction: column;
 }
@@ -58,8 +59,15 @@ header, main {
 justify-content: center;
 }
 
+/*HOVER EFFECT */
+.info_card:hover, button:hover {
+    transform: scale(1.1);
+    transition: 100ms;
+}
+
+
 /*BORDER SETTER*/
-section, #game_canvas {
+section, #game_canvas, .game_header, .info_card {
     width: 900px;
 
     border-radius: var(--roundedge);
@@ -73,24 +81,52 @@ section, #game_canvas {
 /* HEADER */
 header h1 {
     text-shadow: 1px 1px 5px var(--texthighlight);
+    color: var(--heavytext);
 }
 
-/* MAIN */
-/* MENU BAR */
-section {
-    background-color: black;
-    background-image: url(assets/electricity_seamless.png);
-    background-size:contain;
+/* SECTION + INFO CARDS + MENU HEADER */
+section, .info_card {
     height: 72px;
 }
 
+section, .info_card, .game_header {
+    background-color: black;
+    background-image: url(assets/electricity_seamless.png);
+    background-size:contain;
+}
+
+.game_header p, .info_card p {
+    color: var(--texthighlight);
+    font-family: 'Roboto Mono', monospace;
+}
+
+.game_header h3, .game_header p, .info_card h4, .info_card p {
+    padding: .25rem .5rem;
+}
+
+/* INFO CARD */
+.info_card {
+    width: 400px;
+    margin: .5rem;
+    display: flex;
+}
+
+.info_card img {
+    width: 72px;
+    height: 72px;
+    background-color:rgba(240, 248, 255, 0.333);
+    border-radius: var(--roundedge);
+    margin-right: 1rem;
+}
+
+/* SECTION */
 section ul {
     display: flex;
     list-style: square;
 }
 
 section li {
-    color: var(--textcolor);
+    color: var(--heavytext);
     padding-left: 10px;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 500;
@@ -128,6 +164,7 @@ button {
     color: black;
     font-weight: bold;
     cursor: pointer;
+    margin: 0 .5rem;
 }
 
 button:hover {
@@ -141,4 +178,18 @@ button:hover {
 footer p {
     color: var(--texthighlight);
     font-size: 80%;
+}
+#button_menu {
+    display: flex;
+    justify-content: center;
+}
+#menu_footer {
+    justify-content: space-around;
+}
+
+/*MENU BUTTON*/
+#menu_button {
+    width: 300px;
+    height: 72px;
+    font-size: 200%;
 }
