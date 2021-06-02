@@ -880,6 +880,31 @@ canvas.addEventListener('click', ()=> {
     }
 });
 
+
+//ADD HINTS
+let hints = [];
+hints.push("Good luck, commander. Imperial Terra is counting on you!");
+hints.push("We expect nothing but the highest performance from our commanders. Don't let us down.");
+hints.push("Defenders can be upgraded twice, once for 500 credits, and again for 1000 credits. Click on them to upgrade once you have the credits required.");
+hints.push("Your upgraded defenders fire faster, deal more damage, and have higher health.");
+hints.push("Destroyers are our most powerful upgraded defenders. Their flamethrowers will incinerate anything that gets close.");
+hints.push("Failure to defend our extractors as they collect morassium will result in a paycheck deduction.");
+hints.push("The Earth High Junta will exchange your morassium for credits after each level.");
+hints.push("We've tracked enemy movements... They're getting faster after each wave!");
+hints.push("Sensors indicate large flying bugs are approaching after level 4.... be cautious commander");
+hints.push("The longer we take to extract these rocks, the more bugs we attract. Secure the payloads swiftly.");
+hints.push("We may have to throw some grunts in front of our most valuable assets in order to survive");
+
+function cycleHints() {
+    if (frame === 0) {
+        document.getElementById("hints").innerHTML = hints[0];
+    }
+    if (frame % 1500 === 0 && frame !== 0) {
+    document.getElementById("hints").innerHTML = hints[Math.floor(Math.random()*hints.length)];
+    console.log("hint changed");
+    }
+}
+
 //LOAD BACKGROUND
 const background = new Image();
 background.src = 'assets/background.png';
@@ -906,6 +931,7 @@ const animate = () => {
     handleFloatingMessages();
     handleGameStatus();
     refreshMovement();
+    cycleHints();
     frame++;
     if (!gameOver && !gameWon) requestAnimationFrame(animate);
     //this is a recursive animation loop//

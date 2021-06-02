@@ -50,12 +50,13 @@ header, main, #info_box_container {
 }
 
 /*FLEX COLUMN*/
-#wrapper, .col, footer, section, main {
+#wrapper, .col, footer, main {
     display: flex;
     flex-direction: column;
 }
 
-.col, section {
+.col {
+display: flex;
 justify-content: center;
 }
 
@@ -85,6 +86,14 @@ header h1 {
 }
 
 /* SECTION + INFO CARDS + MENU HEADER */
+section {
+    display: flex;
+}
+
+section p, section h4 {
+    padding: 0 var(--globalpad);
+}
+
 section, .info_card {
     height: 72px;
 }
@@ -111,7 +120,7 @@ section, .info_card, .game_header {
     display: flex;
 }
 
-.info_card img {
+img {
     width: 72px;
     height: 72px;
     background-color:rgba(240, 248, 255, 0.333);
@@ -120,21 +129,8 @@ section, .info_card, .game_header {
 }
 
 /* SECTION */
-section ul {
-    display: flex;
-    list-style: square;
-}
-
-section li {
-    color: var(--heavytext);
-    padding-left: 10px;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: 500;
-    font-size: 15px;
-}
-
-ul li span {
-    color: var(--texthighlight);
+section img {
+    border-right: 3px solid black;
 }
 
 /* GAME */
