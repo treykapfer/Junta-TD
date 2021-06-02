@@ -597,7 +597,7 @@ const handleBoss = () => {
     }
     //SPAWN ON 5's
     if (level % 5 === 0 && frame % 5500 === 0) {
-            for (let i = 0; i < level/2; i++) {
+            for (let i = 0; i < level/2 - 1; i++) {
                 if (level === 5) {
                     let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
                     enemies.push(new Boss(verticalPosition));
@@ -655,7 +655,7 @@ class Resource {
         ctx.drawImage(morassiumImg, 0, 0, 128, 128, this.x - 15, this.y - 15, this.width, this.height);
         ctx.font = '14px orbitron';
         ctx.fillStyle = 'lime';
-        ctx.fillText(this.amount, this.x + 15, this.y + 25);
+        ctx.fillText(this.amount, this.x + 20, this.y + 15);
     }
 }
 const handleResources = () => {
@@ -719,7 +719,7 @@ class Miner {
     draw(){
         ctx.fillStyle = 'gold';
         ctx.font = '14px orbitron';
-        ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
+        ctx.fillText(Math.floor(this.health), this.x + 20, this.y);
         ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
