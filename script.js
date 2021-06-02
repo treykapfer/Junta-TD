@@ -589,15 +589,15 @@ const handleSpeedling = () => {
 
 const handleBoss = () => {
     //FINAL WAVE SPAWN
-    if (level === 10 && frame % 2500 === 0 ) {
-        for (let i = 1; i <= 5; i++) {
-            let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
-            enemies.push(new Boss(verticalPosition));
-            enemyPositions.push(verticalPosition);
-        }
-    }
+    // if (level === 10 && frame % 2500 === 0 ) {
+    //     for (let i = 1; i <= 5; i++) {
+    //         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+    //         enemies.push(new Boss(verticalPosition));
+    //         enemyPositions.push(verticalPosition);
+    //     }
+    // }
     //SPAWN ON 5's
-    if (level % 5 === 0 && frame % 5500 === 0) {
+    if (level % 5 === 0 && frame % 5450 === 0) {
             for (let i = 0; i < level/2 - 1; i++) {
                 if (level === 5) {
                     let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
@@ -734,9 +734,12 @@ const handleMiners = () => {
         for (let j = 0; j < enemies.length; j++) {
             //HANDLE COLLISION
             if (miners[i] && miners[i].health <= 0){
+                floatingMessages.push(new floatingMessage(-50, miners[i].x, miners[i].y, 20, 'red'));
+                numberOfCredits -= 50;
                 miners.splice(i, 1);
                 i--;
                 enemies[j].movement = enemies[j].speed;
+
             }
             if (miners[i] && collision(miners[i], enemies[j])){
                 enemies[j].movement = 0;
