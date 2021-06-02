@@ -105,6 +105,7 @@ ul li span {
 #game_canvas {
     background-color: white;
     height: 600px;
+    cursor: pointer;
 }
 
 /*FOOTER*/
@@ -126,6 +127,7 @@ button {
     background-image: url(assets/metal_seamless.png);
     color: black;
     font-weight: bold;
+    cursor: pointer;
 }
 
 button:hover {

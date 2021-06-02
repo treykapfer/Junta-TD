@@ -11,6 +11,7 @@ const cellGap = 3;
 //we will be storing all of our stuff inside of arrays
 const gameGrid = [];
 const defenders = [];
+const miners = [];
 const enemies = [];
 const projectiles = [];
 const resources = [];
@@ -27,7 +28,7 @@ let morassiumRate = 700;
 //others
 let enemyPositions = [];
 let morassium = 0;
-let numberOfCredits = 350;
+let numberOfCredits = 400;
 let incrementer = 10;
 let frame = 0;
 let killCount = 0;
@@ -379,6 +380,12 @@ const handleEnemies = () => {
             gameOver = true;
         }
         if (enemies[i].health <= 0){
+            //REFRESH MINER ON COLLISION *CODE 88
+            for (let j = 0; j < miners.length; j++){
+                if (miners[j] && collision(miners[j], enemies[i])){
+                    miners[j].movement = miners[j].speed;
+                }
+            }
             //FLOATERS
             floatingMessages.push(new floatingMessage(`+${enemies[i].maxHealth / 10}`, enemies[i].x, enemies[i].y, 20, 'gold'));
             //GAIN KILL
@@ -427,8 +434,8 @@ const handleEnemies = () => {
         enemyPositions.push(verticalPosition);
     }
 
-    //SPAWNS BOSS UNITS EVERY 10K FRAMES
-    if (frame % (9000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
+    //SPAWNS BOSS UNITS EVERY 7K FRAMES
+    if (frame % (7000 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 5) {
         for (let i = 0; i < BossIncrementer; i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Boss(verticalPosition));
@@ -437,7 +444,7 @@ const handleEnemies = () => {
         }
     }
     //SPAWN MEGA BOSS WITH MINIONS
-    if (frame % (10500 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
+    if (frame % (9500 - (incrementer+level)*100) === 0 && morassium < winningScore && level > 6) {
         for (let i = 0; i < Math.max(BossIncrementer-1,1); i++) {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newMegaBoss = new Boss(verticalPosition);
@@ -641,9 +648,9 @@ morassiumImg.src = 'assets/morassium.png';
 const amounts = [20, 30, 40];
 
 class Resource {
-    constructor(){
-        this.x = Math.random() * (canvas.width - cellSize);
-        this.y = (Math.floor(Math.random() * 5) + 1) * cellSize + 25;
+    constructor(verticalPosition) {
+        this.x = Math.max(200, Math.random() * (canvas.width - cellSize));
+        this.y = verticalPosition 
         this.width = cellSize * 0.6;
         this.height = cellSize * 0.6;
         this.amount = amounts[Math.floor(Math.random()* amounts.length)];
@@ -651,20 +658,102 @@ class Resource {
     draw(){
         ctx.drawImage(morassiumImg, 0, 0, 128, 128, this.x - 15, this.y - 15, this.width, this.height);
         ctx.font = '14px orbitron';
+        ctx.fillStyle = 'lime';
         ctx.fillText(this.amount, this.x + 15, this.y + 25);
     }
 }
 const handleResources = () => {
     if (frame % morassiumRate === 0 && morassium < winningScore && resources.length < 4){
-        resources.push(new Resource());
+        let verticalPosition = (Math.floor(Math.random() * 5) + 1) * cellSize + 25;
+        resources.push(new Resource(verticalPosition));
     }
+    //THIS DRAWS RESOURCES AND CHECKS IF THERE IS A COLLISION
+    //CHANGE THIS to see if a miner is colliding
     for (let i = 0; i < resources.length; i++){
         resources[i].draw();
-        if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)){
-            morassium += resources[i].amount;
-            floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'));
-            resources.splice(i, 1);
-            i--;
+        // if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)){
+        //     morassium += resources[i].amount;
+        //     floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'gold'));
+        //     resources.splice(i, 1);
+        //     i--;
+        // }
+        for (let j = 0; j < miners.length; j++) {
+            if (resources[i] && miners[j] && collision(resources[i], miners[j])) {
+                morassium += resources[i].amount;
+                floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'lime'));
+                resources.splice(i, 1);
+                i--;
+                miners.splice(j, 1);
+                j--;
+                return;
+            }
+        }
+
+    }
+}
+
+// MINERS//collectors //
+const minerImg = new Image();
+minerImg.src = 'assets/miner.png';
+
+class Miner {
+    constructor(verticalPosition) {
+        this.x = -100;
+        this.y = verticalPosition 
+        this.width = cellSize - 30 - cellGap * 2;
+        this.height = cellSize - 30 - cellGap * 2;
+        this.health = 50;
+        this.image = minerImg;
+        this.speed = 0.7;
+        this.movement = this.speed;
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 12;
+        this.spriteWidth = 113;
+        this.spriteHeight = 135;
+    }
+    update(){
+        this.x += this.movement;
+        if (frame % 3 === 0) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
+        }
+    }
+    draw(){
+        ctx.fillStyle = 'gold';
+        ctx.font = '14px orbitron';
+        ctx.fillText(Math.floor(this.health), this.x + 25, this.y);
+        ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
+
+const handleMiners = () => {
+    //draw and update the miners
+    for (let i = 0; i < miners.length; i++){
+        miners[i].update();
+        miners[i].draw();
+
+        for (let j = 0; j < enemies.length; j++) {
+            //HANDLE COLLISION
+            if (miners[i] && miners[i].health <= 0){
+                miners.splice(i, 1);
+                i--;
+                enemies[j].movement = enemies[j].speed;
+            }
+            if (miners[i] && collision(miners[i], enemies[j])){
+                enemies[j].movement = 0;
+                miners[i].movement = 0;
+                miners[i].health -= 0.2;
+                //REFRESH MINER ON COLLISION SEARCH *CODE 88
+            }
+        }
+    }
+
+    for (let i = 0; i < resources.length; i++) {
+        if (miners.length === 0 && resources.length >= 1) {
+            let verticalPosition = resources[i].y - 20;
+            miners.push(new Miner(verticalPosition));
         }
     }
 }
@@ -673,10 +762,12 @@ const handleResources = () => {
 const handleGameStatus = () => {
     ctx.fillStyle = 'gold';
     ctx.font = '20px orbitron';
-    ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
     ctx.fillText('Credits: ' + numberOfCredits, 16, 72);
     ctx.fillText('Level: ' + level, 264, 36);
     ctx.fillText('Kill Count: ' + killCount, 264, 72);
+
+    // ctx.fillStyle = 'lime';
+    ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
 
     if (gameOver){
         ctx.fillStyle = 'red';
@@ -718,7 +809,7 @@ const handleLevelClear = () => {
         // enemyRate = Math.floor(enemyRate * (incrementer/10));
         enemyCeiling = Math.max(Math.floor(enemyCeiling - (incrementer*2)), 200);
         enemyRate = enemyCeiling;
-        enemyBaseSpeed += .037;
+        enemyBaseSpeed += .04;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
         if (level === 7) BossIncrementer++;
@@ -803,11 +894,12 @@ const animate = () => {
     // ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
     handleGameGrid();
     handleLevelClear();
+    handleResources();
+    handleMiners();
     handleDefenders();
     handleBoss();
     handleSpeedling();
     handleEnemies();
-    handleResources();
     handleProjectiles();
     // chooseDefender();
     handleFloatingMessages();
