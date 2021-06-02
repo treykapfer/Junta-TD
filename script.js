@@ -24,6 +24,7 @@ let enemyRateIncrease = 20;
 let enemyFloor = 120;
 let enemyCeiling = enemyRate;
 let morassiumRate = 700;
+let enemyDamage = .2;
 
 //others
 let enemyPositions = [];
@@ -253,17 +254,17 @@ const handleDefenders = () => {
         //HANDLE COLLISION
             if (defenders[i] && collision(defenders[i], enemies[j])){
                 enemies[j].movement = 0;
-                defenders[i].health -= 0.2;
+                defenders[i].health -= enemyDamage;
                 if (defenders[i].defenderType === destroyer) {
                     enemies[j].health -= 0.33;
                     ctx.drawImage(flames[Math.floor(Math.random()*flames.length)], 0, 0, 512, 512, enemies[j].x+Math.floor(Math.random()*5)-20, enemies[j].y+15+Math.floor(Math.random()*5), 72, 36);
                 }
                 //EXTRA DAMAGE FROM BOSSES
                 if (enemies[j].enemyType === boss) {
-                    defenders[i].health -= 0.2;
+                    defenders[i].health -= enemyDamage
                 }
                 if (enemies[j].enemyType === megaboss) {
-                    defenders[i].health -= 0.4;
+                    defenders[i].health -= enemyDamage*2
                 }
             }
             if (defenders[i] && defenders[i].health <= 0){
@@ -740,7 +741,7 @@ const handleMiners = () => {
             if (miners[i] && collision(miners[i], enemies[j])){
                 enemies[j].movement = 0;
                 miners[i].movement = 0;
-                miners[i].health -= 0.2;
+                miners[i].health -= enemyDamage;
                 //REFRESH MINER ON COLLISION SEARCH *CODE 88
             }
         }
@@ -808,6 +809,7 @@ const handleLevelClear = () => {
         enemyBaseSpeed += .04;
         enemyRateIncrease++;
         enemyFloor = Math.max(enemyFloor - (incrementer), 25);
+        if (level >= 5) enemyDamage += .025;
         if (level === 7) BossIncrementer++;
         if (level === 10) BossIncrementer++;
 
