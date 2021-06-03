@@ -803,7 +803,7 @@ const handleLevelClear = () => {
 
         ///HINT MESSAGES
         if (level == 3) {
-            document.getElementById("hints").innerHTML = "You've got new bugs incoming. We haven't seent these before. These blue ones are faster and stronger."
+            document.getElementById("hints").innerHTML = "You've got new bugs incoming. We haven't seen these before. These blue ones are faster and stronger."
         }
 
         if (level == 4) {
