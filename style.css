@@ -79,6 +79,13 @@ section, #game_canvas, .game_header, .info_card {
     inset 0px 0px 4px 4px var(--transhighlight);
 }
 
+section {
+    box-shadow:
+    0px 0px 0 6px var(--bordercolor),
+    0px 0px 0 8px black,
+    inset 0px 0px 4px 4px rgba(0, 255, 64, 0.12);
+}
+
 /* HEADER */
 header h1 {
     text-shadow: 1px 1px 5px var(--texthighlight);
@@ -102,6 +109,10 @@ section, .info_card, .game_header {
     background-color: black;
     background-image: url(assets/electricity_seamless.png);
     background-size:contain;
+}
+
+section {
+    background-image: url(assets/electricity_seamless_green.png);
 }
 
 .game_header p, .info_card p {
@@ -130,7 +141,7 @@ img {
 
 /* SECTION */
 section img {
-    border-right: 3px solid black;
+    border-right: 1px solid black;
 }
 
 /* GAME */

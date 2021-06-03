@@ -773,6 +773,7 @@ const handleGameStatus = () => {
         ctx.fillStyle = 'red';
         ctx.font = '60px orbitron';
         ctx.fillText('GAME OVER', 456, 72);
+        document.getElementById("hints").innerHTML = "You know the price of failure. Report to HQ immediatley."
     }
     if (morassium >= winningScore && enemies.length === 0) {
         ctx.fillStyle = 'green';
@@ -783,6 +784,7 @@ const handleGameStatus = () => {
         ctx.fillStyle = 'green';
         ctx.font = '60px orbitron';
         ctx.fillText('YOU WON!', 500, 72);
+        document.getElementById("hints").innerHTML = "Good work, Commander. It's brave soldiers like you that keep the empire running!"
         gameWon = true;
     }
 }
@@ -797,6 +799,27 @@ const handleLevelClear = () => {
         if (level !== 10) {
         floatingMessages.push(new floatingMessage('LEVEL CLEARED', 444, 60, 32, 'lime'));
         floatingMessages.push(new floatingMessage('....CREDITS RECIEVED', 444, 120, 32, 'lime'));
+        }
+
+        ///HINT MESSAGES
+        if (level == 3) {
+            document.getElementById("hints").innerHTML = "You've got new bugs incoming. We haven't seent these before. These blue ones are faster and stronger."
+        }
+
+        if (level == 4) {
+            document.getElementById("hints").innerHTML = "Be warned... You've got flying bugs inbound. It looks like they pack a punch."
+        }
+
+        if (level == 6) {
+            document.getElementById("hints").innerHTML = "Bug activity is spiking. More flying bugs have been spotted on our radar. My god... they're even bigger than the green ones."
+        }
+
+        if (level == 8) {
+            document.getElementById("hints").innerHTML = "Speedling activity is at an all time high. Satellites show theyre preparing to attack in swarms with the red ones."
+        }
+
+        if (level == 9) {
+            document.getElementById("hints").innerHTML = "The bugs are making their final push. Give them everything you've got, Commander. For Imperial Terra!"
         }
 
         ///INCRIMENT VARIABLES AND DIFFICULTY
@@ -885,7 +908,7 @@ canvas.addEventListener('click', ()=> {
 let hints = [];
 hints.push("Good luck, commander. Imperial Terra is counting on you!");
 hints.push("We expect nothing but the highest performance from our commanders. Don't let us down.");
-hints.push("Defenders can be upgraded twice, once for 500 credits, and again for 1000 credits. Click on them to upgrade once you have the credits required.");
+hints.push("Defenders can be upgraded twice, once for 500 credits, and again for 1000 credits. Click on them once you have the credits required.");
 hints.push("Your upgraded defenders fire faster, deal more damage, and have higher health.");
 hints.push("Destroyers are our most powerful upgraded defenders. Their flamethrowers will incinerate anything that gets close.");
 hints.push("Failure to defend our extractors as they collect morassium will result in a paycheck deduction.");
