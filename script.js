@@ -815,7 +815,7 @@ const handleLevelClear = () => {
             document.getElementById("hints").innerHTML = "You've got new bugs incoming. We haven't seen these before. These blue ones are faster and stronger."
             hints.push("The bigger the bugs, the higher your payout.");
             hints.push("Speedlings seem to be swarming in larger and larger groups.");
-            hints.push("Don't be afraid to throw some grunts in front of our more valuable assets. They know what they signed up for.");
+            hints.push("Don't be afraid to throw some grunts in front of our more valuable assets. They know what they signed up for...");
         }
 
         if (level == 4) {
