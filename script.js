@@ -802,16 +802,29 @@ const handleLevelClear = () => {
         }
 
         ///HINT MESSAGES
+        if (level == 1) {
+            hints.push("Speedlings move much faster than other bugs, but are easier to take down");
+            hints.push("We've tracked enemy movements... They're getting faster after each wave!");
+        }
         if (level == 3) {
             document.getElementById("hints").innerHTML = "You've got new bugs incoming. We haven't seen these before. These blue ones are faster and stronger."
+            hints.push("The bigger the bugs, the higher your payout.");
+            hints.push("Speedlings seem to be swarming in larger and larger groups.");
+            hints.push("Don't be afraid to throw some grunts in front of our more valuable assets. They know what they signed up for.");
         }
 
         if (level == 4) {
             document.getElementById("hints").innerHTML = "Be warned... You've got flying bugs inbound. It looks like they pack a punch."
+            hints.push("These flying boss bugs are lethal. They appear to deal twice the damage of normal bugs.");
+            hints.push("Looks like we've pissed these buggers off. They're shredding us faster after each wave.");
         }
 
         if (level == 6) {
             document.getElementById("hints").innerHTML = "Bug activity is spiking. More flying bugs have been spotted on our radar. My god... they're even bigger than the green ones."
+        }
+
+        if (level == 7) {
+            document.getElementById("hints").innerHTML = "A new breed of speedling has emerged. Be careful, those red demons will rip you to shreds."
         }
 
         if (level == 8) {
@@ -820,6 +833,7 @@ const handleLevelClear = () => {
 
         if (level == 9) {
             document.getElementById("hints").innerHTML = "The bugs are making their final push. Give them everything you've got, Commander. For Imperial Terra!"
+            hints.push("One last push, and the bugs are done for. You got this, commander.");
         }
 
         ///INCRIMENT VARIABLES AND DIFFICULTY
@@ -904,23 +918,25 @@ canvas.addEventListener('click', ()=> {
 });
 
 
-//ADD HINTS
+//ADD HINTS AND LORE
 let hints = [];
-hints.push("Good luck, commander. Imperial Terra is counting on you!");
-hints.push("We expect nothing but the highest performance from our commanders. Don't let us down.");
+//HINTS
 hints.push("Defenders can be upgraded twice, once for 500 credits, and again for 1000 credits. Click on them once you have the credits required.");
-hints.push("Your upgraded defenders fire faster, deal more damage, and have higher health.");
-hints.push("Destroyers are our most powerful upgraded defenders. Their flamethrowers will incinerate anything that gets close.");
-hints.push("Failure to defend our extractors as they collect morassium will result in a paycheck deduction.");
+hints.push("Your upgraded defenders fire faster, deal more damage, and have far better durability.");
+hints.push("Destroyers are the most powerful upgraded defenders. Their flamethrowers will incinerate anything that gets close.");
+hints.push("Failure to defend our extractors as they collect morassium will result in a deduction of your credits.");
 hints.push("The Earth High Junta will exchange your morassium for credits after each level.");
-hints.push("We've tracked enemy movements... They're getting faster after each wave!");
-hints.push("Sensors indicate large flying bugs are approaching after level 4.... be cautious commander");
 hints.push("The longer we take to extract these rocks, the more bugs we attract. Secure the payloads swiftly.");
-hints.push("We may have to throw some grunts in front of our most valuable assets in order to survive");
+//LORE
+hints.push("Your success on the battlefield will be used to aid our propaganda campaigns back home.");
+hints.push("We must be willing to sacrifice as many lives as neccessary to power EarthCoin and her blockchain.");
+hints.push("We expect nothing but the highest performance from our commanders. The price of failure is termination.");
+hints.push("Bugs, terrorists, commies - an enemy of the empire is an enemy of the empire. Handle them as you know how.");
+hints.push("The recent addition of child volunteers into our militias mean we have plenty of expendable troops.");
 
 function cycleHints() {
     if (frame === 0) {
-        document.getElementById("hints").innerHTML = hints[0];
+        document.getElementById("hints").innerHTML = "Good luck, commander. Imperial Terra is counting on you!";
     }
     if (frame % 1500 === 0 && frame !== 0) {
     document.getElementById("hints").innerHTML = hints[Math.floor(Math.random()*hints.length)];
