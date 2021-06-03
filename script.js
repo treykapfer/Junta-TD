@@ -637,6 +637,11 @@ const refreshMovement = () => {
             }
         }
     }
+    if (defenders.length === 0) {
+        for (let j = 0; j < enemies.length; j++) {
+            enemies[j].movement = enemies[j].speed;
+        }
+    }
 }
 
 // RESOURCES //
