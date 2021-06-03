@@ -808,7 +808,7 @@ const handleLevelClear = () => {
 
         ///HINT MESSAGES
         if (level == 1) {
-            hints.push("Speedlings move much faster than other bugs, but are easier to take down");
+            hints.push("Speedlings move much faster than other bugs, but they're easier to take down");
             hints.push("We've tracked enemy movements... They're getting faster after each wave!");
         }
         if (level == 3) {
