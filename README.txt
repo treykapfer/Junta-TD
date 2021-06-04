@@ -8,4 +8,7 @@ local resistance you encounter.
 
 ///This is my first solo project and javascript game.
 Download the folder, unzip, then open menu.html in any browser
-Mostly tested on Mozilla and Chrome.
+
+//Current built is desktop only.
+This game was built on a high resolution gaming set up.
+Older laptops may need to zoom out in browser to view the game properly.
