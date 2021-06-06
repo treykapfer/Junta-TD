@@ -18,5 +18,5 @@ TO DO:
 2. Finalize balance changes (playthough multiple times)
 --CREATE 2.0 version of the game with leaderboard
 1. Add Django views/front end server
-2. Add MongoDB to impliment leaderboard
+2. Add MongoDB back end server to impliment leaderboard
 3. Optional - Add death animations for bugs and towers
