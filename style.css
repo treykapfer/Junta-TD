@@ -121,7 +121,15 @@ section {
 }
 
 .game_header h3, .game_header p {
-    padding: .25rem var(--globalpad);
+    padding: .12rem 1rem;
+}
+
+.game_header h3 {
+    padding-top: .25rem;
+}
+
+.game_header p {
+    padding-bottom: .3rem;
 }
 
 /* INFO CARD */
@@ -131,6 +139,11 @@ section {
     display: flex;
 }
 
+.info_card h4, .info_card p {
+    padding: .06rem 0;
+}
+
+/*IMAGES*/
 img {
     width: 72px;
     height: 72px;
