@@ -120,8 +120,8 @@ section {
     font-family: 'Roboto Mono', monospace;
 }
 
-.game_header h3, .game_header p, .info_card h4, .info_card p {
-    padding: .25rem .5rem;
+.game_header h3, .game_header p {
+    padding: .25rem var(--globalpad);
 }
 
 /* INFO CARD */
