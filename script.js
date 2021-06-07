@@ -35,6 +35,13 @@ let frame = 0;
 let killCount = 0;
 let enemyBaseSpeed = 0.4;
 
+//SCORE TRACKERS
+let casualties = 0;
+let extractorDeaths = 0;
+let totalMorassium = 0;
+let HPKilled = 0;
+let playerScore = 0;
+
 //SWITCHES
 let gameOver = false;
 let gameWon = false;
@@ -271,6 +278,7 @@ const handleDefenders = () => {
                 defenders.splice(i, 1);
                 i--;
                 enemies[j].movement = enemies[j].speed;
+                casualties++
             }
         }
     }
@@ -392,6 +400,7 @@ const handleEnemies = () => {
             //GAIN KILL
             numberOfCredits += enemies[i].maxHealth / 10;
             killCount += 1;
+            HPKilled += enemies[i].maxHealth;
             //REMOVE VERTICAL POSITION
             const findThisIndex = enemyPositions.indexOf(enemies[i].y);
             enemyPositions.splice(findThisIndex, 1);
@@ -682,6 +691,7 @@ const handleResources = () => {
         for (let j = 0; j < miners.length; j++) {
             if (resources[i] && miners[j] && collision(resources[i], miners[j])) {
                 morassium += resources[i].amount;
+                totalMorassium += resources[i].amount;
                 floatingMessages.push(new floatingMessage(`+${resources[i].amount}`, resources[i].x, resources[i].y, 20, 'lime'));
                 resources.splice(i, 1);
                 i--;
@@ -744,6 +754,8 @@ const handleMiners = () => {
                 miners.splice(i, 1);
                 i--;
                 enemies[j].movement = enemies[j].speed;
+                extractorDeaths ++;
+                casualties++;
 
             }
             if (miners[i] && collision(miners[i], enemies[j])){
@@ -769,7 +781,7 @@ const handleGameStatus = () => {
     ctx.font = '20px orbitron';
     ctx.fillText('Credits: ' + numberOfCredits, 16, 72);
     ctx.fillText('Level: ' + level, 264, 36);
-    ctx.fillText('Kill Count: ' + killCount, 264, 72);
+    ctx.fillText('Score: ' + playerScore, 264, 72);
 
     // ctx.fillStyle = 'lime';
     ctx.fillText(`Morassium: ${morassium}/${winningScore}`, 16, 36);
@@ -977,6 +989,7 @@ const animate = () => {
     refreshMovement();
     cycleHints();
     frame++;
+    playerScore = HPKilled + ((level-1)*1000) + (totalMorassium*10) + (killCount*10) - (casualties*100) - (extractorDeaths*1000);
     if (!gameOver && !gameWon) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
