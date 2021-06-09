@@ -989,7 +989,7 @@ const animate = () => {
     refreshMovement();
     cycleHints();
     frame++;
-    playerScore = HPKilled + ((level-1)*1000) + (totalMorassium*10) + (killCount*10) - (casualties*100) - (extractorDeaths*1000);
+    playerScore = Math.max(0, HPKilled + ((level-1)*1000) + (totalMorassium*10) + (killCount*10) - (casualties*100) - (extractorDeaths*5000) - Math.floor(frame/100));
     if (!gameOver && !gameWon) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
