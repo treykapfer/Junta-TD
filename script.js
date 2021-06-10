@@ -41,6 +41,8 @@ let extractorDeaths = 0;
 let totalMorassium = 0;
 let HPKilled = 0;
 let playerScore = 0;
+let totalMinerCount = 0;
+let levelBossKillCount = 0;
 
 //SWITCHES
 let gameOver = false;
@@ -389,6 +391,10 @@ const handleEnemies = () => {
             gameOver = true;
         }
         if (enemies[i].health <= 0){
+            //CHECK IF IT WAS A BOSS
+            if (enemies[i].enemyType === boss || enemies[i].enemyType === megaboss) {
+                levelBossKillCount++;
+            }
             //REFRESH MINER ON COLLISION *CODE 88
             for (let j = 0; j < miners.length; j++){
                 if (miners[j] && collision(miners[j], enemies[i])){
@@ -450,7 +456,6 @@ const handleEnemies = () => {
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Boss(verticalPosition));
             enemyPositions.push(verticalPosition);
-            console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
         }
     }
     //SPAWN MEGA BOSS WITH MINIONS
@@ -479,7 +484,6 @@ const handleEnemies = () => {
             enemies.push(newEnemy2);
             enemyPositions.push(verticalPosition);
         }
-        console.log(`boss spawned at rate of ${(10000 - (incrementer+level)*100)}`);
     }
     //SPAWNS SUPER SPEEDLINGS AT LEVEL 8
     if (frame % (enemyRate + (Math.floor(900/(incrementer-7)))) === 0 && morassium < winningScore && level >= 8) {
@@ -535,7 +539,7 @@ let speedlingMultiplier = 1;
 const handleSpeedling = () => {
     if (frame % 2500 === 0 && level !== 1) {
         for (let i = 0; i < speedlingMultiplier; i++) {
-            console.log("speedling spawned")
+            console.log("speedling wave spawned")
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             enemies.push(new Speedling(verticalPosition));
             enemyPositions.push(verticalPosition);
@@ -543,9 +547,9 @@ const handleSpeedling = () => {
         speedlingMultiplier++;
     }
 
-    if (frame % 3000 === 0 && level >= 9) {
+    if (frame % 3010 === 0 && level >= 9) {
         for (let i = 0; i < speedlingMultiplier/3; i++) {
-            console.log("super speedling spawned");
+            console.log("super speedling wave spawned");
             let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
             let newSuperSpeedling = new Speedling(verticalPosition);
             newSuperSpeedling.enemyType = superspeedling;
@@ -771,6 +775,7 @@ const handleMiners = () => {
         if (miners.length === 0 && resources.length >= 1) {
             let verticalPosition = resources[i].y - 20;
             miners.push(new Miner(verticalPosition));
+            totalMinerCount++;
         }
     }
 }
@@ -876,6 +881,12 @@ const handleLevelClear = () => {
         console.log(`${enemyCeiling} is new enemy ceiling`);
         console.log(`${enemyRateIncrease} is new enemy increase rate`);
 
+        //LEVEL CLEAR SCORE FACTOR
+        playerScore -= totalMinerCount*10;
+        playerScore += levelBossKillCount*1000;
+        levelBossKillCount = 0;
+
+        //RESET
         levelCleared = false;
         
     }
@@ -957,7 +968,6 @@ function cycleHints() {
     }
     if (frame % 1500 === 0 && frame !== 0) {
     document.getElementById("hints").innerHTML = hints[Math.floor(Math.random()*hints.length)];
-    console.log("hint changed");
     }
 }
 
@@ -989,7 +999,7 @@ const animate = () => {
     refreshMovement();
     cycleHints();
     frame++;
-    playerScore = Math.max(0, HPKilled + ((level-1)*1000) + (totalMorassium*10) + (killCount*10) - (casualties*100) - (extractorDeaths*5000) - Math.floor(frame/100));
+    playerScore = Math.max(0, (HPKilled/2) + ((level-1)*1000) + (totalMorassium*10) + (killCount*10) - (casualties*100) - (extractorDeaths*5000) - Math.floor(frame/100));
     if (!gameOver && !gameWon) requestAnimationFrame(animate);
     //this is a recursive animation loop//
 }
