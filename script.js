@@ -43,6 +43,7 @@ let HPKilled = 0;
 let playerScore = 0;
 let totalMinerCount = 0;
 let levelBossKillCount = 0;
+let totalBossKillCount = 0;
 
 //SWITCHES
 let gameOver = false;
@@ -884,6 +885,7 @@ const handleLevelClear = () => {
         //LEVEL CLEAR SCORE FACTOR
         playerScore -= totalMinerCount*10;
         playerScore += levelBossKillCount*1000;
+        totalBossKillCount += levelBossKillCount;
         levelBossKillCount = 0;
 
         //RESET
