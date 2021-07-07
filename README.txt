@@ -1,4 +1,4 @@
-///This is the beta version of junta commander.
+///This is the alpha version of junta commander.
 ///A new repo will be created for the final deployed version with highscore tracking + MongoDB and Django added
 
 ///JUNTA COMMANDER TOWER DEFENSE
