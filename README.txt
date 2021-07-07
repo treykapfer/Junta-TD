@@ -1,6 +1,5 @@
 ///This is the alpha version of junta commander.
-///A new repo will be created for the final deployed version with highscore tracking + MongoDB and Django added
-
+///A new repo will be created for the final deployed version
 ///JUNTA COMMANDER TOWER DEFENSE
 ///By TJ Kapfer
 
